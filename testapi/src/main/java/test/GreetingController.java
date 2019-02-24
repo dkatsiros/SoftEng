@@ -2,15 +2,20 @@ package test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import test.Product;
 import test.ProductRepository;
@@ -20,8 +25,9 @@ import test.Shopout;
 import test.ShopRepository;
  
 @RestController
-public class GreetingController {
+public class GreetingController implements ErrorController{
 	
+	private static final String PATH="/error";
 	private static final String template = "Hello, %s!";
 	private final AtomicLong counter = new AtomicLong();
 	@Autowired
@@ -47,7 +53,17 @@ public class GreetingController {
 		}
 		return productsout;
 	}
-	
+	 
+	@GetMapping("/products/{id}")
+	public Product retrieveProduct(@PathVariable int id) {
+		Optional<Product> product = ProductRepository.findById(id);
+
+		if (!product.isPresent())
+			throw new ProductNotFoundException("id-" + id);
+
+		return product.get();
+	}
+	 
 	@PostMapping (path = "/products")
 	public @ResponseBody String addProduct(@RequestParam String name, @RequestParam String description, @RequestParam String category,
 			@RequestParam String tags) {
@@ -75,6 +91,16 @@ public class GreetingController {
 		return shopssout;
 	}
 	
+	@GetMapping("/shops/{id}")
+	public Shop retrieveShop(@PathVariable int id) {
+		Optional<Shop> shop = ShopRepository.findById(id);
+
+		if (!shop.isPresent())
+			throw new ShopNotFoundException("id-" + id);
+
+		return shop.get();
+	}
+	
 	@PostMapping(path = "/shops") 
 	public @ResponseBody String addShop(@RequestParam String name, @RequestParam String address, @RequestParam Double lng, 
 			@RequestParam Double lat, @RequestParam String tags) {
@@ -89,17 +115,17 @@ public class GreetingController {
 		return "Done";
 	}
 
+	
+	@RequestMapping(value=PATH,method=RequestMethod.GET)
+	public String defaultErrorMessage(){
+		return "Requested Resource is not found!4!0!4!";
+	}
+
+	@Override
+	public String getErrorPath() {
+		return PATH;	
+		}	
+	
+	
+	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
