@@ -43,8 +43,8 @@ public class Shop {
 		return withdrawn;
 	}
 	
-	public void setwithdrawn() {
-		this.withdrawn = 0;
+	public void setwithdrawn(int withdrawn) {
+		this.withdrawn = withdrawn;
 	}
 	
 	public Double getlng() {

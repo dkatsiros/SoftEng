@@ -8,8 +8,10 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +27,7 @@ import test.Shopout;
 import test.ShopRepository;
  
 @RestController
-public class GreetingController implements ErrorController{
+public class GreetingController implements ErrorController {
 	
 	private static final String PATH="/error";
 	private static final String template = "Hello, %s!";
@@ -53,7 +55,7 @@ public class GreetingController implements ErrorController{
 		}
 		return productsout;
 	}
-	 
+	
 	@GetMapping("/products/{id}")
 	public Product retrieveProduct(@PathVariable int id) {
 		Optional<Product> product = ProductRepository.findById(id);
@@ -62,6 +64,43 @@ public class GreetingController implements ErrorController{
 			throw new ProductNotFoundException("id-" + id);
 
 		return product.get();
+	}
+	
+	@PutMapping("/products/{id}")
+	public String updateProduct(@PathVariable int id, @RequestParam String name, @RequestParam String description, @RequestParam String category,
+			@RequestParam String tags) {
+		Optional<Product> product = ProductRepository.findById(id);
+		if (!product.isPresent())
+			throw new ProductNotFoundException("id-" + id);
+		product.get().setname(name);
+		product.get().setdescription(description);
+		product.get().setcategory(category);
+		product.get().settags(tags);
+		ProductRepository.save(product.get());
+		return "Updated";
+		
+	}
+	
+	@PatchMapping("/products/{id}")
+	public String semiupdateProduct(@PathVariable int id, @RequestParam Optional<String> name, @RequestParam Optional<String> description, @RequestParam Optional<String> category,
+			@RequestParam Optional<String> tags) {
+		Optional<Product> product = ProductRepository.findById(id);
+		if (!product.isPresent())
+			throw new ProductNotFoundException("id-" + id);
+		if (name.isPresent()) {
+			product.get().setname(name.get());
+		}
+		if (description.isPresent()) {
+			product.get().setdescription(description.get());
+		}
+		if (category.isPresent()) {
+			product.get().setcategory(category.get());
+		}
+		if (tags.isPresent()) {
+			product.get().settags(tags.get());
+		}
+		ProductRepository.save(product.get());
+		return "semiUpdated";
 	}
 	 
 	@PostMapping (path = "/products")
@@ -72,7 +111,7 @@ public class GreetingController implements ErrorController{
 		p.setcategory(category);
 		p.setdescription(description);
 		p.settags(tags);
-		p.setwithdrawn();
+		p.setwithdrawn(0);
 		ProductRepository.save(p);
 		return "Done";
 	}
@@ -91,6 +130,7 @@ public class GreetingController implements ErrorController{
 		return shopssout;
 	}
 	
+	
 	@GetMapping("/shops/{id}")
 	public Shop retrieveShop(@PathVariable int id) {
 		Optional<Shop> shop = ShopRepository.findById(id);
@@ -99,6 +139,46 @@ public class GreetingController implements ErrorController{
 			throw new ShopNotFoundException("id-" + id);
 
 		return shop.get();
+	}
+	
+	@PutMapping("/shops/{id}")
+	public String updateShop(@PathVariable int id, @RequestParam String name, @RequestParam String address, @RequestParam Double lng, 
+			@RequestParam Double lat, @RequestParam String tags) {
+		Optional<Shop> shop = ShopRepository.findById(id);
+		if (!shop.isPresent())
+			throw new ShopNotFoundException("id-" + id);
+		shop.get().setname(name);
+		shop.get().setaddress(address);
+		shop.get().setlng(lng);
+		shop.get().setlat(lat);
+		shop.get().settags(tags);
+		ShopRepository.save(shop.get());
+		return "Updated";
+	}
+	
+	@PatchMapping("/shops/{id}")
+	public String semiupdateShop(@PathVariable int id, @RequestParam Optional<String> name, @RequestParam Optional<String> address, 
+			@RequestParam Optional<Double> lng, @RequestParam Optional<Double> lat, @RequestParam Optional<String> tags) {
+		Optional<Shop> shop = ShopRepository.findById(id);
+		if (!shop.isPresent())
+			throw new ShopNotFoundException("id-" + id);
+		if(name.isPresent()) {
+			shop.get().setname(name.get());
+		}
+		if(address.isPresent()) {
+			shop.get().setaddress(address.get());
+		}
+		if(lng.isPresent()) {
+			shop.get().setlng(lng.get());
+		}
+		if(lat.isPresent()) {
+			shop.get().setlat(lat.get());
+		}
+		if(tags.isPresent()) {
+			shop.get().settags(tags.get());
+		}
+		ShopRepository.save(shop.get());
+		return "semiUpdated";
 	}
 	
 	@PostMapping(path = "/shops") 
@@ -110,11 +190,10 @@ public class GreetingController implements ErrorController{
 		s.setlng(lng);
 		s.setlat(lat);
 		s.settags(tags);
-		s.setwithdrawn();
+		s.setwithdrawn(0);
 		ShopRepository.save(s);
 		return "Done";
 	}
-
 	
 	@RequestMapping(value=PATH,method=RequestMethod.GET)
 	public String defaultErrorMessage(){
@@ -124,7 +203,7 @@ public class GreetingController implements ErrorController{
 	@Override
 	public String getErrorPath() {
 		return PATH;	
-		}	
+	}	
 	
 	
 	
