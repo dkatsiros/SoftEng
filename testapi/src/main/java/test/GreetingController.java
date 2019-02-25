@@ -1,6 +1,8 @@
 package test;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
@@ -18,7 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import test.Price;
+import test.PriceRepository;
 import test.Product;
 import test.ProductRepository;
 import test.Productout;
@@ -36,6 +39,8 @@ public class GreetingController implements ErrorController {
 	private ProductRepository ProductRepository;
 	@Autowired
 	private ShopRepository ShopRepository;
+	@Autowired
+	private PriceRepository PriceRepository;
 	
 	@RequestMapping("/greeting")
 	public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) {
@@ -43,12 +48,37 @@ public class GreetingController implements ErrorController {
 	}
 	
 	@GetMapping (path = "/products")
-	public @ResponseBody List<Productout> getAllProducts() {
-		int size, i;
+	public @ResponseBody List<Productout> getAllProducts(@RequestParam Optional<String> status, @RequestParam Optional<String> sort) {
+		int size = 0, i;
 		List<Productout> productsout = new ArrayList<>();
 		List<Product> products = new ArrayList<>();
-		ProductRepository.findAll().forEach(products::add);
-		size = products.size();
+		if (!status.isPresent()) {
+			ProductRepository.findBywithdrawn(0).forEach(products::add);
+			size = products.size();
+		}
+		else {
+			if (status.get().equals("ACTIVE")) {
+				ProductRepository.findBywithdrawn(0).forEach(products::add);
+				size = products.size();
+			}
+			if (status.get().equals("ALL")) {
+				ProductRepository.findAll().forEach(products::add);
+				size = products.size();
+			}
+			if (status.get().equals("WITHDRAWN")) {
+				ProductRepository.findBywithdrawn(1).forEach(products::add);
+				size = products.size();
+			}
+		}
+		if (!sort.isPresent()) {
+			products.sort(Comparator.comparing(Product::getid).reversed());
+		}
+		else {
+			if (sort.get().equals("id/DESC")) products.sort(Comparator.comparing(Product::getid).reversed());
+			if (sort.get().equals("id/ASC")) products.sort(Comparator.comparing(Product::getid));
+			if (sort.get().equals("name/ASC")) products.sort(Comparator.comparing(Product::getname));
+			if (sort.get().equals("name/DESC")) products.sort(Comparator.comparing(Product::getname).reversed());
+		}
 		for (i=0; i<size; i++) {
 			Productout productout = new Productout(products.get(i));
 			productsout.add(productout);
@@ -117,12 +147,37 @@ public class GreetingController implements ErrorController {
 	}
 	
 	@GetMapping(path = "/shops")
-	public @ResponseBody List<Shopout> getAllShops() {
-		int size, i;
+	public @ResponseBody List<Shopout> getAllShops(@RequestParam Optional<String> status, @RequestParam Optional<String> sort) {
+		int size=0, i;
 		List<Shopout> shopssout = new ArrayList<>();
 		List<Shop> shops = new ArrayList<>();
-		ShopRepository.findAll().forEach(shops::add);
-		size = shops.size();
+		if (!status.isPresent()) {
+			ShopRepository.findBywithdrawn(0).forEach(shops::add);
+			size = shops.size();
+		}
+		else {
+			if (status.get().equals("ACTIVE")) {
+				ShopRepository.findBywithdrawn(0).forEach(shops::add);
+				size = shops.size();
+			}
+			if (status.get().equals("ALL")) {
+				ShopRepository.findAll().forEach(shops::add);
+				size = shops.size();
+			}
+			if (status.get().equals("WITHDRAWN")) {
+				ShopRepository.findBywithdrawn(1).forEach(shops::add);
+				size = shops.size();
+			}
+		}
+		if (!sort.isPresent()) {
+			shops.sort(Comparator.comparing(Shop::getid).reversed());
+		}
+		else {
+			if (sort.get().equals("id/DESC")) shops.sort(Comparator.comparing(Shop::getid).reversed());
+			if (sort.get().equals("id/ASC")) shops.sort(Comparator.comparing(Shop::getid));
+			if (sort.get().equals("name/ASC")) shops.sort(Comparator.comparing(Shop::getname));
+			if (sort.get().equals("name/DESC")) shops.sort(Comparator.comparing(Shop::getname).reversed());
+		}
 		for (i=0; i<size; i++) {
 			Shopout shopout = new Shopout(shops.get(i));
 			shopssout.add(shopout);
@@ -193,6 +248,30 @@ public class GreetingController implements ErrorController {
 		s.setwithdrawn(0);
 		ShopRepository.save(s);
 		return "Done";
+	}
+	
+	@GetMapping("/prices")
+	public @ResponseBody List<Price> getallPrices() {
+		List<Price> prices = new ArrayList<>();
+		PriceRepository.findAll().forEach(prices::add);
+		return prices;
+	}
+	
+	@PostMapping("/prices")
+	public @ResponseBody String addPrice(@RequestParam Double price, @RequestParam Integer productid, @RequestParam Integer shopid,
+			@RequestParam Date dateFrom, @RequestParam Date dateTo) {
+		Price p = new Price();
+		p.setprice(price);
+		Optional<Product> product = ProductRepository.findById(productid);
+		Optional<Shop> shop = ShopRepository.findById(shopid);
+		p.setproduct(product.get());
+		p.setshop(shop.get());
+		p.setdateFrom(dateFrom);
+		p.setdateTp(dateTo);
+		p.setthumbsdown(0);
+		p.setthumbsup(0);
+		PriceRepository.save(p);
+		return "done";
 	}
 	
 	@RequestMapping(value=PATH,method=RequestMethod.GET)
