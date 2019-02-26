@@ -30,7 +30,10 @@ import test.Shopout;
 import test.ShopRepository;
  
 @RestController
-public class GreetingController implements ErrorController {
+public class GreetingController 
+//implements ErrorController
+{
+
 	
 	private static final String PATH="/error";
 	private static final String template = "Hello, %s!";
@@ -244,6 +247,7 @@ public class GreetingController implements ErrorController {
 	}
 	
 	@PostMapping(path = "/shops") 
+
 	public @ResponseBody Shopout addShop(@RequestParam String name, @RequestParam String address, @RequestParam Double lng, 
 			@RequestParam Double lat, @RequestParam String tags) {
 		Shop s = new Shop();
@@ -253,6 +257,7 @@ public class GreetingController implements ErrorController {
 		s.setlat(lat);
 		s.settags(tags);
 		s.setwithdrawn(0);
+		//if (format!= null )if(format.equals("xml") )  return "Error LEME";//edoprepei na mpei to error handler 400
 		ShopRepository.save(s);
 		Shopout shopout = new Shopout(s);
 		return shopout;
@@ -282,6 +287,7 @@ public class GreetingController implements ErrorController {
 		return "done";
 	}
 	
+/*
 	@RequestMapping(value=PATH,method=RequestMethod.GET)
 	public String defaultErrorMessage(){
 		return "Requested Resource is not found!4!0!4!";
@@ -290,8 +296,9 @@ public class GreetingController implements ErrorController {
 	@Override
 	public String getErrorPath() {
 		return PATH;	
-	}	
-	
-	
-	
+
+		}	
+	//
+	 */	
+			
 }
