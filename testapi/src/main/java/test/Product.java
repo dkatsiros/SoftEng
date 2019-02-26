@@ -48,8 +48,8 @@ public class Product {
 		return withdrawn;
 	}
 	
-	public void setwithdrawn() {
-		this.withdrawn = 0;
+	public void setwithdrawn(int withdrawn) {
+		this.withdrawn = withdrawn;
 	}
 	
 	public String getcategory() {
