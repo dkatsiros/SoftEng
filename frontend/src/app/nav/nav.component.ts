@@ -15,4 +15,5 @@ export class NavComponent implements OnInit {
   title1:string =  "Home"
   title2:string =  "About"
   title3:string =  "Sign in"
+  title4:string = "Register"
 }
