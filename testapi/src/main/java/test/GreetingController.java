@@ -258,6 +258,7 @@ public class GreetingController
 		s.settags(tags);
 		s.setwithdrawn(0);
 		//if (format!= null )if(format.equals("xml") )  return "Error LEME";//edoprepei na mpei to error handler 400
+		//return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		ShopRepository.save(s);
 		Shopout shopout = new Shopout(s);
 		return shopout;
@@ -299,6 +300,16 @@ public class GreetingController
 
 		}	
 	//
+	 * 
+	 * 
+
+change your return type to ResponseEntity<>, then you can use below for 400
+
+return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+and for correct request
+
+return new ResponseEntity<>(json,HttpStatus.OK);
 	 */	
 			
 }

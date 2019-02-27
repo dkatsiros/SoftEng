@@ -60,5 +60,5 @@ public class Productout {
 		//this.extraData = new Extra(product.getMO_Price());
 		
 	}
-
+	
 }
