@@ -2,11 +2,15 @@ package test;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
+import javax.naming.SizeLimitExceededException;
+
+import org.apache.coyote.http11.filters.SavedRequestInputFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,10 +34,8 @@ import test.Shopout;
 import test.ShopRepository;
  
 @RestController
-public class GreetingController 
-//implements ErrorController
-{
-
+public class GreetingController {
+//implements ErrorController {
 	
 	private static final String PATH="/error";
 	private static final String template = "Hello, %s!";
@@ -247,7 +249,6 @@ public class GreetingController
 	}
 	
 	@PostMapping(path = "/shops") 
-
 	public @ResponseBody Shopout addShop(@RequestParam String name, @RequestParam String address, @RequestParam Double lng, 
 			@RequestParam Double lat, @RequestParam String tags) {
 		Shop s = new Shop();
@@ -257,18 +258,107 @@ public class GreetingController
 		s.setlat(lat);
 		s.settags(tags);
 		s.setwithdrawn(0);
-		//if (format!= null )if(format.equals("xml") )  return "Error LEME";//edoprepei na mpei to error handler 400
-		//return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		ShopRepository.save(s);
 		Shopout shopout = new Shopout(s);
 		return shopout;
 	}
 	
 	@GetMapping("/prices")
-	public @ResponseBody List<Price> getallPrices() {
+	public @ResponseBody List<Price> getallPrices(@RequestParam Optional<List<Integer>> Productsid, @RequestParam Optional<List<Integer>> Shopsid,
+			@RequestParam Optional<Integer> geoDst, @RequestParam Optional<Double> geoLng, @RequestParam Optional<Double> geoLat,
+			@RequestParam Optional<Date> dateFrom, @RequestParam Optional<Date> dateTo, @RequestParam Optional<List<String>> tags ) {
+		int size=0, i;
 		List<Price> prices = new ArrayList<>();
-		PriceRepository.findAll().forEach(prices::add);
-		return prices;
+		List<Price> priceout = new ArrayList<>();
+		List<Price> priceout2 = new ArrayList<>();
+		List<Price> priceout3 = new ArrayList<>(); 
+		if (!Productsid.isPresent() && Shopsid.isPresent()) {
+			PriceRepository.findByShopIdIn(Shopsid.get()).forEach(prices::add);
+		}
+		if (Productsid.isPresent() && !Shopsid.isPresent()) {
+			PriceRepository.findByProductIdIn(Productsid.get()).forEach(prices::add);
+		}
+		if (Productsid.isPresent() && Shopsid.isPresent()) {
+			PriceRepository.findByProductIdAndShopIdIn(Productsid.get(), Shopsid.get()).forEach(prices::add);
+		}
+		if (!Productsid.isPresent() && !Shopsid.isPresent()) {
+			PriceRepository.findAll().forEach(prices::add);
+		}
+		if (geoDst.isPresent()) {
+			size = prices.size();
+			for (i=0; i<size; i++) {
+				Shop newshop = prices.get(i).getshop();
+				double lng = newshop.getlng();
+				double lat = newshop.getlat();
+				double theta = geoLng.get() - lng;
+				double dist = Math.sin(Math.toRadians(geoLat.get())) * Math.sin(Math.toRadians(lat)) + Math.cos(Math.toRadians(geoLat.get()))* Math.cos(Math.toRadians(lat)) * Math.cos(Math.toRadians(theta));
+				dist = Math.acos(dist);
+				dist = Math.toDegrees(dist);
+				dist = dist * 60 * 1.515;
+				dist = dist * 1.609344;
+				if (dist <= geoDst.get()) {
+					priceout.add(prices.get(i));
+				}
+			}
+		}
+		else {
+			size = prices.size();
+			for (i=0; i<size; i++) {
+				priceout.add(prices.get(i));
+			}
+		}
+		if (dateFrom.isPresent()) {
+			size = priceout.size();
+			for (i=0; i<size; i++) {
+				Date dateFromPrice = priceout.get(i).getdateFrom();
+				Date dateToPrice = priceout.get(i).getdateTo();
+				
+				if(dateFromPrice.before(dateFrom.get()) && dateToPrice.after(dateTo.get())) {
+					priceout2.add(priceout.get(i));
+				}
+			}
+		}
+		else {
+			size = priceout.size();
+			for (i=0; i<size; i++) {
+				priceout2.add(priceout.get(i));
+			}
+		}
+		if (tags.isPresent()) {
+			size = priceout2.size();
+			for (i=0; i<size; i++) {
+				List<String> producttags = Arrays.asList(priceout2.get(i).getproduct().gettags().split("\\s*,\\s*"));
+				List<String> shopttags = Arrays.asList(priceout2.get(i).getshop().gettags().split("\\s*,\\s*"));
+				boolean flag = false;
+				for (int j=0; j<producttags.size(); j++) {
+					if (flag) break;
+					for (int k=0; k<tags.get().size(); k++) {
+						if (tags.get().get(k).equals(producttags.get(j))) {
+							priceout3.add(priceout2.get(i));
+							flag = true;
+							break;
+						}
+					}
+				}
+				for (int j=0; j<shopttags.size(); j++) {
+					if (flag) break;
+					for (int k=0; k<tags.get().size(); k++) {
+						if (tags.get().get(k).equals(shopttags.get(j))) {
+							priceout3.add(priceout2.get(i));
+							flag = true;
+							break;
+						}
+					}
+				}
+			}
+		}
+		else {
+			size = priceout2.size();
+			for (i=0; i<size; i++) {
+				priceout3.add(priceout2.get(i));
+			}
+		}
+		return priceout3;
 	}
 	
 	@PostMapping("/prices")
@@ -288,7 +378,7 @@ public class GreetingController
 		return "done";
 	}
 	
-/*
+	/*
 	@RequestMapping(value=PATH,method=RequestMethod.GET)
 	public String defaultErrorMessage(){
 		return "Requested Resource is not found!4!0!4!";
@@ -297,19 +387,8 @@ public class GreetingController
 	@Override
 	public String getErrorPath() {
 		return PATH;	
-
-		}	
-	//
-	 * 
-	 * 
-
-change your return type to ResponseEntity<>, then you can use below for 400
-
-return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
-and for correct request
-
-return new ResponseEntity<>(json,HttpStatus.OK);
-	 */	
-			
+	}	*/
+	
+	
+	
 }
