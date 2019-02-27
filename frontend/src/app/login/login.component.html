@@ -1,3 +1,21 @@
-<p>
-  login works!
-</p>
+<hr>
+
+<form [formGroup]="userLogin" (ngSubmit)="onSubmit()" class="text-center border border-light p-5">
+
+  <p class="h4 mb-4">Sign ip</p>
+
+  <div class="form-row mb-4">
+    <div class="col">
+      <input type="text" formControlName="username" id="defaultLoginFormUsername" class="form-control"
+        placeholder="Username" required>
+    </div>
+    <div>
+      <input type="password" formControlName="password" id="defaultLoginFormPassword" class="form-control mb-4"
+      placeholder="Password">
+      
+    </div>
+    <button class="btn btn-info my-4 btn-block" type="submit">Login</button>
+  </div>
+  <hr>
+
+</form>

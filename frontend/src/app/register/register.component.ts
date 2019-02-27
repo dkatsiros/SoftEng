@@ -9,14 +9,13 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class RegisterComponent implements OnInit {
 
-  userForm
+  userRegister
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.userForm = this.formBuilder.group({
+    this.userRegister = this.formBuilder.group({
       username:['',[Validators.required]],
       name:['',[Validators.required]],
-      lastName:['',[Validators.required]],
       email:['',[Validators.required]],
       password:['',[Validators.required]]
 
@@ -24,17 +23,19 @@ export class RegisterComponent implements OnInit {
   }
     
   // convenience getter for easy access to form fields
-  get f() { return this.userForm.controls; }
+  get f() { return this.userRegister.controls; }
   
   onSubmit(){
-    if (this.userForm.valid){
-      
-      alert('User form valid');
+    if (this.userRegister.valid){
+      console.log(this.f.name);
+
+      alert('User form Valid');
     }
     else{
-      alert('User form invalid');
+      console.log(this.f.name);
+      alert('User form Invalid');
     }
-
+    
     console.log("Submited");
   }
 
