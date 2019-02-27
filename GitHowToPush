@@ -1,0 +1,5 @@
+Otan mas bgazei oti exoume diaforetikes ekdoseis sto local kai sto github kai den mas afhnei na pusharoume kanoume ta ekshs:
+
+git fetch --all
+git rebase origin master
+kai meta kanonika add commit push.
