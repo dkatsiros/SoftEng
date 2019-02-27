@@ -11,12 +11,12 @@ import { NavComponent } from './nav/nav.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { AppRoutingModule } from './app-routing.module';
-import { SignInComponent } from './sign-in/sign-in.component';
 import { MiddlePageComponent } from './middle-page/middle-page.component';
 import { FooterComponent } from './footer/footer.component';
 import { RegisterComponent } from './register/register.component';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -26,10 +26,11 @@ import { CommonModule } from '@angular/common';
     NavComponent,
     HomeComponent,
     AboutComponent,
-    SignInComponent,
+    LoginComponent,
     MiddlePageComponent,
     FooterComponent,
-    RegisterComponent
+    RegisterComponent,
+    
   ],
   imports: [
     BrowserModule,

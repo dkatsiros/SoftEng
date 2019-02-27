@@ -10,22 +10,25 @@ import { FormBuilder, Validators } from '@angular/forms';
 export class RegisterComponent implements OnInit {
 
   userForm
-  constructor(private formBuilder: FormBuilder,private http: HttpClient) { }
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.userForm = this.formBuilder.group({
-      firstName:['',[Validators.required]],
+      username:['',[Validators.required]],
+      name:['',[Validators.required]],
       lastName:['',[Validators.required]],
       email:['',[Validators.required]],
       password:['',[Validators.required]]
 
     })
   }
+    
+  // convenience getter for easy access to form fields
+  get f() { return this.userForm.controls; }
+  
   onSubmit(){
     if (this.userForm.valid){
-      this.http.post('/api/sign-up',this.userForm.value).subscribe((response)=>{
-        console.log('response',response);
-      })
+      
       alert('User form valid');
     }
     else{

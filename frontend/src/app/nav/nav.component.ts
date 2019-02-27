@@ -14,6 +14,6 @@ export class NavComponent implements OnInit {
   appTitle:string = "eCoffee"
   title1:string =  "Home"
   title2:string =  "About"
-  title3:string =  "Sign in"
+  title3:string =  "Login"
   title4:string = "Register"
 }
