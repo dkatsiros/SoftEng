@@ -1,0 +1,7 @@
+1. Κατεβαζουμε ΜySQlCommunity server 
+2. Διαγράφουμε Χampp αν το ειχαμε απο βασεις
+3. εγκατασταση της MySQL (Προσοχή στην εγκατάσταση να γινει στο port 3305 (αντι για 3306 που ειναι το default))
+4. credentials στην εγκατασταση της mysql βαλτε username:root, password:password
+5. Αφου εγκατασταθει η mysql ανοιγουμε workbench και κανουμε import τον sql κωδικα απο το git (στο schema -> create new: cafes και μετα start import)
+6. στον φακελο που αποθηκευσαμε το αρχειο jar ανοιγουμε cmd και τρεχουμε την εντολη java -jar gs-rest-service-0.1.0.jar
+7. Στελνουμε τα request στον localhost:8765/observatory/api

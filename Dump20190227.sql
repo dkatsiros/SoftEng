@@ -64,37 +64,37 @@ INSERT INTO `hibernate_sequence` VALUES (1);
 UNLOCK TABLES;
 
 --
--- Table structure for table `prices`
+-- Table structure for table `price`
 --
 
-DROP TABLE IF EXISTS `prices`;
+DROP TABLE IF EXISTS `price`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `prices` (
+CREATE TABLE `price` (
   `priceid` int(11) NOT NULL AUTO_INCREMENT,
-  `price` double NOT NULL,
-  `productid` int(11) NOT NULL,
-  `shopid` int(11) NOT NULL,
-  `username` varchar(45) COLLATE latin1_bin NOT NULL,
-  `dateFrom` varchar(45) COLLATE latin1_bin NOT NULL,
-  `dateTo` varchar(45) COLLATE latin1_bin NOT NULL,
-  `thumbsup` int(11) NOT NULL,
-  `thumbsdown` int(11) NOT NULL,
+  `date_from` date DEFAULT NULL,
+  `date_to` date DEFAULT NULL,
+  `price` double DEFAULT NULL,
+  `thumbsdown` int(11) DEFAULT NULL,
+  `thumbsup` int(11) DEFAULT NULL,
+  `productid` int(11) DEFAULT NULL,
+  `shopid` int(11) DEFAULT NULL,
   PRIMARY KEY (`priceid`),
-  KEY `shopid_idx` (`shopid`),
-  KEY `productid_idx` (`productid`),
-  CONSTRAINT `productid` FOREIGN KEY (`productid`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `shopid` FOREIGN KEY (`shopid`) REFERENCES `shop` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+  KEY `productid` (`productid`),
+  KEY `shopid` (`shopid`),
+  CONSTRAINT `productid` FOREIGN KEY (`productid`) REFERENCES `product` (`id`),
+  CONSTRAINT `shopid` FOREIGN KEY (`shopid`) REFERENCES `shop` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `prices`
+-- Dumping data for table `price`
 --
 
-LOCK TABLES `prices` WRITE;
-/*!40000 ALTER TABLE `prices` DISABLE KEYS */;
-/*!40000 ALTER TABLE `prices` ENABLE KEYS */;
+LOCK TABLES `price` WRITE;
+/*!40000 ALTER TABLE `price` DISABLE KEYS */;
+INSERT INTO `price` VALUES (1,'2019-03-21','2018-03-12',1.4,0,0,1,1),(2,'2018-04-12','2020-01-19',1.5,0,0,1,2),(3,'1977-12-03','1987-03-12',1.4,0,0,1,3),(4,'1977-12-03','1987-03-12',1.4,0,0,4,3),(5,'1977-12-03','1987-03-12',1.4,0,0,3,3),(6,'1977-12-03','1987-03-12',1.4,0,0,3,2);
+/*!40000 ALTER TABLE `price` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -106,13 +106,13 @@ DROP TABLE IF EXISTS `product`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL,
-  `description` varchar(45) DEFAULT NULL,
-  `withdrawn` tinyint(4) DEFAULT '0',
-  `category` varchar(45) DEFAULT NULL,
-  `tags` longtext,
+  `category` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `tags` varchar(255) DEFAULT NULL,
+  `withdrawn` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -121,7 +121,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (1,'capuccino2','gorgona',0,'cafes','cappucino, capustrino'),(2,'freddo espresso','o pio omorfos cafes',0,'cafes','freddo, pagwmeno, espresso'),(3,'freddo espresso2','o pio omorfos cafes',0,'cafes','freddo, pagwmeno, espresso');
+INSERT INTO `product` VALUES (1,'cold coffee','kako kafe ','frappucino','good, bad',0),(2,'cafes','o pio omorfos cafes','freddo espresso2','freddo, pagwmeno, espresso',0),(3,'cafes','o pio omorfos cafes','freddo espresso2','freddo, pagwmeno, espresso',0),(4,'cold coffee','kako kafe ','frape','good, bad',0),(5,'cold coffee','kako kafe ','frape','good, bad',0),(6,'cold coffee','kako kafe ','frape','good, bad',0),(7,'cold coffee','kako kafe ','frapedara','good, bad',0);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -134,14 +134,14 @@ DROP TABLE IF EXISTS `shop`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `shop` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `address` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `lng` double NOT NULL,
-  `lat` double NOT NULL,
-  `tags` varchar(45) CHARACTER SET latin1 NOT NULL,
-  `withdrawn` tinyint(4) DEFAULT '0',
+  `address` varchar(255) DEFAULT NULL,
+  `lat` double DEFAULT NULL,
+  `lng` double DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `tags` varchar(255) DEFAULT NULL,
+  `withdrawn` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=983 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -150,7 +150,7 @@ CREATE TABLE `shop` (
 
 LOCK TABLES `shop` WRITE;
 /*!40000 ALTER TABLE `shop` DISABLE KEYS */;
-INSERT INTO `shop` VALUES (1,'Starbucks','125 Μαρτιου, Νέα Σμλυρνη',12.2341,35.787,'cafedaki, peaki, leftoudakia',0),(2,'McPolands','123 Μαρτλιου, Αθηναι',49.9094,123.12,'fagaki, augoulaki, cafes',0),(981,'Aylh','Ζωδόχου Πηγής 10, Κρυονέρι',12.3,1229.1,'xalaro, droseo, fragkato',0),(982,'Mc','Μεσολλογγίου 13, Καστοριά',12.3,13.7,'cafes, magazi, apo kastoria paok',0);
+INSERT INTO `shop` VALUES (1,'Μεσολλογγίου 13, Καστοριά',13.7,12.3,'Mc','cafes, magazi, apo kastoria paok',0),(2,'Μεσολλογγίου 13, Καστοριά',13.7,12.3,'Mc','cafes, magazi, apo kastoria paok',0),(3,'Μεσολλογγίου 13, Καστοριά',13.7,12.3,'Mc','cafes, magazi, apo kastoria paok',0),(4,'Μεσολλογγίου 13, Καστοριά',13.7,12.3,'Mc','cafes, magazi, apo kastoria paok',0);
 /*!40000 ALTER TABLE `shop` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -191,4 +191,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-02-23 17:37:20
+-- Dump completed on 2019-02-27  2:03:51
