@@ -7,9 +7,19 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule} from '@angular/router'
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { SearchComponent } from './search/search.component';
+import { ProductsSearchComponent } from './products-search/products-search.component';
+import { ShopsSearchComponent } from './shops-search/shops-search.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
+  {
+    path: 'search', component: SearchComponent,
+    children:[
+      {path: 'product-search', component: ProductsSearchComponent },
+      {path: 'shops-search', component: ShopsSearchComponent}
+    ]
+  },
   {path: 'about', component: AboutComponent },
   {path: 'login', component: LoginComponent},
   {path: 'register',component: RegisterComponent}

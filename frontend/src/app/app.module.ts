@@ -19,6 +19,9 @@ import { RegisterComponent } from './register/register.component';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login/login.component';
+import { SearchComponent } from './search/search.component';
+import { ProductsSearchComponent } from './products-search/products-search.component';
+import { ShopsSearchComponent } from './shops-search/shops-search.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +35,9 @@ import { LoginComponent } from './login/login.component';
     MiddlePageComponent,
     FooterComponent,
     RegisterComponent,
+    SearchComponent,
+    ProductsSearchComponent,
+    ShopsSearchComponent,
     
   ],
   imports: [
