@@ -22,6 +22,8 @@ import { LoginComponent } from './login/login.component';
 import { SearchComponent } from './search/search.component';
 import { ProductsSearchComponent } from './products-search/products-search.component';
 import { ShopsSearchComponent } from './shops-search/shops-search.component';
+import { JwtModule } from '@auth0/angular-jwt';
+
 
 @NgModule({
   declarations: [
@@ -48,7 +50,15 @@ import { ShopsSearchComponent } from './shops-search/shops-search.component';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: function  tokenGetter() {
+             return     localStorage.getItem('access_token');},
+        whitelistedDomains: ['localhost:8765'],
+        blacklistedRoutes: ['https://localhost:8765/observatory/api/login']
+      }
+    })
 
   ],
   providers: [],

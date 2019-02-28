@@ -13,7 +13,7 @@ export class ApiShopsService {
   constructor(private httpClient: HttpClient) {};
   
   public createShops(shop: Shops){
-    return this.httpClient.post(`${this.apiURL}/shops/`,shop);
+    return this.httpClient.post(`${this.apiURL}/shops`,shop);
 
   };
   public updateShops(shop: Shops){
