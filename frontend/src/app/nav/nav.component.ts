@@ -6,14 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
-
+  
   constructor() { }
 
   ngOnInit() {
   }
   appTitle:string = "eCoffee"
   title1:string =  "Home"
-  title2:string =  "About"
-  title3:string =  "Login"
-  title4:string = "Register"
+  title2:string =  "Search"
+  title3:string =  "About"
+  title4:string =  "Login"
+  title5 = "Register"
 }

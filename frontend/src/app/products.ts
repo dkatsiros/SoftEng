@@ -5,6 +5,7 @@ export class Products {
         description: string;
         withdrawn: number;
         tags: string;
-        category: string;
+        category: string
+
     }
 
