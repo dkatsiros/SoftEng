@@ -23,6 +23,7 @@ import { SearchComponent } from './search/search.component';
 import { ProductsSearchComponent } from './products-search/products-search.component';
 import { ShopsSearchComponent } from './shops-search/shops-search.component';
 import { JwtModule } from '@auth0/angular-jwt';
+import { PricesSearchComponent } from './prices-search/prices-search.component';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { JwtModule } from '@auth0/angular-jwt';
     SearchComponent,
     ProductsSearchComponent,
     ShopsSearchComponent,
+    PricesSearchComponent,
     
   ],
   imports: [
