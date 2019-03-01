@@ -1,12 +1,14 @@
-<hr>
-<h1>Search Page</h1>
-<div>
-    <nav>
-        <ul>
-          <li><a routerLink="product-search">{{title1}}</a></li>
-          <li><a routerLink="shops-search">{{title2}}</a></li>
-        </ul>
-      </nav>
-</div>
+<h1>Τι θέλετε να αναζητήσετε;</h1>
+
+<nav>
+  <label class="container">Product
+    <input type="radio" checked="checked" name="radio" routerLink="product-search">
+    <span class="checkmark"></span>
+  </label>
+  <label class="container">Shop
+    <input type="radio" name="radio" routerLink="shops-search">
+    <span class="checkmark"></span>
+  </label>
+</nav>
+
 <router-outlet></router-outlet>
-<hr>
