@@ -1,7 +1,6 @@
 package test;
 
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -9,8 +8,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
+import javax.naming.SizeLimitExceededException;
 
-import org.assertj.core.util.DateUtil;
+import org.apache.coyote.http11.filters.SavedRequestInputFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +32,6 @@ import test.Productout;
 import test.Shop;
 import test.Shopout;
 import test.ShopRepository;
-import test.Priceout;
  
 @RestController
 public class GreetingController {
@@ -264,13 +263,11 @@ public class GreetingController {
 		return shopout;
 	}
 	
-	
 	@GetMapping("/prices")
-	public @ResponseBody List<Priceout> getallPrices(@RequestParam Optional<List<Integer>> Productsid, @RequestParam Optional<List<Integer>> Shopsid,
+	public @ResponseBody List<Price> getallPrices(@RequestParam Optional<List<Integer>> Productsid, @RequestParam Optional<List<Integer>> Shopsid,
 			@RequestParam Optional<Integer> geoDst, @RequestParam Optional<Double> geoLng, @RequestParam Optional<Double> geoLat,
 			@RequestParam Optional<Date> dateFrom, @RequestParam Optional<Date> dateTo, @RequestParam Optional<List<String>> tags ) {
 		int size=0, i;
-		List<Priceout> result = new ArrayList<>();
 		List<Price> prices = new ArrayList<>();
 		List<Price> priceout = new ArrayList<>();
 		List<Price> priceout2 = new ArrayList<>();
@@ -287,71 +284,10 @@ public class GreetingController {
 		if (!Productsid.isPresent() && !Shopsid.isPresent()) {
 			PriceRepository.findAll().forEach(prices::add);
 		}
-		if (dateFrom.isPresent()) {
-			size = prices.size();
-			for (i=0; i<size; i++) {
-				Date dateFromPrice = prices.get(i).getdateFrom();
-				Date dateToPrice = prices.get(i).getdateTo();
-				
-				if(dateFromPrice.before(dateFrom.get()) && dateToPrice.after(dateTo.get())) {
-					priceout.add(prices.get(i));
-				}
-			}
-		}
-		else {
-			java.util.Date dateFrom1 = new java.util.Date();
-			Date dateFrom2 = new java.sql.Date(dateFrom1.getTime());
-			java.util.Date dateTo1 = new java.util.Date();
-			Date dateTo2 = new java.sql.Date(dateTo1.getTime());
-			size = prices.size();
-			for (i=0; i<size; i++) {
-				Date dateFromPrice = prices.get(i).getdateFrom();
-				Date dateToPrice = prices.get(i).getdateTo();
-				
-				if(dateFromPrice.before(dateFrom2) && dateToPrice.after(dateTo2)) {
-					priceout.add(prices.get(i));
-				}
-			}
-		}
-		if (tags.isPresent()) {
-			size = priceout.size();
-			for (i=0; i<size; i++) {
-				List<String> producttags = Arrays.asList(priceout.get(i).getproduct().gettags().split("\\s*,\\s*"));
-				List<String> shopttags = Arrays.asList(priceout.get(i).getshop().gettags().split("\\s*,\\s*"));
-				boolean flag = false;
-				for (int j=0; j<producttags.size(); j++) {
-					if (flag) break;
-					for (int k=0; k<tags.get().size(); k++) {
-						if (tags.get().get(k).equals(producttags.get(j))) {
-							priceout2.add(priceout.get(i));
-							flag = true;
-							break;
-						}
-					}
-				}
-				for (int j=0; j<shopttags.size(); j++) {
-					if (flag) break;
-					for (int k=0; k<tags.get().size(); k++) {
-						if (tags.get().get(k).equals(shopttags.get(j))) {
-							priceout2.add(priceout.get(i));
-							flag = true;
-							break;
-						}
-					}
-				}
-			}
-		}
-		else {
-			size = priceout.size();
-			for (i=0; i<size; i++) {
-				priceout2.add(priceout.get(i));
-			}
-		}
-		List<Double> distances = new ArrayList<>();
 		if (geoDst.isPresent()) {
-			size = priceout2.size();
+			size = prices.size();
 			for (i=0; i<size; i++) {
-				Shop newshop = priceout2.get(i).getshop();
+				Shop newshop = prices.get(i).getshop();
 				double lng = newshop.getlng();
 				double lat = newshop.getlat();
 				double theta = geoLng.get() - lng;
@@ -361,8 +297,58 @@ public class GreetingController {
 				dist = dist * 60 * 1.515;
 				dist = dist * 1.609344;
 				if (dist <= geoDst.get()) {
-					priceout3.add(priceout2.get(i));
-					distances.add(dist);
+					priceout.add(prices.get(i));
+				}
+			}
+		}
+		else {
+			size = prices.size();
+			for (i=0; i<size; i++) {
+				priceout.add(prices.get(i));
+			}
+		}
+		if (dateFrom.isPresent()) {
+			size = priceout.size();
+			for (i=0; i<size; i++) {
+				Date dateFromPrice = priceout.get(i).getdateFrom();
+				Date dateToPrice = priceout.get(i).getdateTo();
+				
+				if(dateFromPrice.before(dateFrom.get()) && dateToPrice.after(dateTo.get())) {
+					priceout2.add(priceout.get(i));
+				}
+			}
+		}
+		else {
+			size = priceout.size();
+			for (i=0; i<size; i++) {
+				priceout2.add(priceout.get(i));
+			}
+		}
+		if (tags.isPresent()) {
+			size = priceout2.size();
+			for (i=0; i<size; i++) {
+				List<String> producttags = Arrays.asList(priceout2.get(i).getproduct().gettags().split("\\s*,\\s*"));
+				List<String> shopttags = Arrays.asList(priceout2.get(i).getshop().gettags().split("\\s*,\\s*"));
+				boolean flag = false;
+				for (int j=0; j<producttags.size(); j++) {
+					if (flag) break;
+					for (int k=0; k<tags.get().size(); k++) {
+						if (tags.get().get(k).equals(producttags.get(j))) {
+							priceout3.add(priceout2.get(i));
+							flag = true;
+							break;
+						}
+					}
+				}
+				for (int j=0; j<shopttags.size(); j++) {
+					if (flag) break;
+					for (int k=0; k<tags.get().size(); k++) {
+						if (tags.get().get(k).equals(shopttags.get(j))) {
+							priceout3.add(priceout2.get(i));
+							flag = true;
+							break;
+						}
+					}
 				}
 			}
 		}
@@ -370,25 +356,9 @@ public class GreetingController {
 			size = priceout2.size();
 			for (i=0; i<size; i++) {
 				priceout3.add(priceout2.get(i));
-				distances.add(0.0);
 			}
 		}
-		Date date;
-		if (!dateFrom.isPresent()) {
-			java.util.Date dateFrom1 = new java.util.Date();
-			Date dateFrom2 = new java.sql.Date(dateFrom1.getTime());
-			date = dateFrom2;
-		}
-		else {
-			date = dateFrom.get();
-		}
-		size = priceout3.size();
-		for (i=0; i<size; i++) {
-			Priceout newresult = new Priceout(priceout3.get(i), distances.get(i), date);
-			result.add(newresult);
-		}
-		return result;
-		//return priceout3;
+		return priceout3;
 	}
 	
 	@PostMapping("/prices")
