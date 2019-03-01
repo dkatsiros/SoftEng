@@ -9,6 +9,16 @@ export class HomeComponent implements OnInit {
 
   constructor() { }
 
+  isRegistered: boolean = false;
+
+  setIsRegistered(rg: boolean): void {
+    this.isRegistered = rg;
+  }
+
+  getIsRegistered(): boolean {
+    return this.isRegistered;
+  }
+
   ngOnInit() {
   }
 

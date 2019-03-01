@@ -14,6 +14,7 @@ export class RegisterComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private reg: JwtService) { }
 
   ngOnInit() {
+
     this.userRegister = this.formBuilder.group({
       username:['',[Validators.required]],
       name:['',[Validators.required]],

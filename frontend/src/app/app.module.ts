@@ -23,6 +23,10 @@ import { SearchComponent } from './search/search.component';
 import { ProductsSearchComponent } from './products-search/products-search.component';
 import { ShopsSearchComponent } from './shops-search/shops-search.component';
 import { JwtModule } from '@auth0/angular-jwt';
+import { InsertComponent } from './insert/insert.component';
+import { InsertProductComponent } from './insert-product/insert-product.component';
+import { InsertShopComponent } from './insert-shop/insert-shop.component';
+import { RegisteredComponent } from './registered/registered.component';
 
 
 @NgModule({
@@ -40,6 +44,10 @@ import { JwtModule } from '@auth0/angular-jwt';
     SearchComponent,
     ProductsSearchComponent,
     ShopsSearchComponent,
+    InsertComponent,
+    InsertProductComponent,
+    InsertShopComponent,
+    RegisteredComponent,
     
   ],
   imports: [
