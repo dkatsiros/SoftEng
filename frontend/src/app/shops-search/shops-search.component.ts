@@ -13,10 +13,11 @@ export class ShopsSearchComponent implements OnInit {
   count: number;
   total: number;
   data: any = {};
-
+data2: any={};
   constructor(private apis: ApiShopsService) { }
 
   ngOnInit() {
+   
     this.apis.getShops().subscribe(response => {
       console.log(response);
         this.data=response;
@@ -24,6 +25,8 @@ export class ShopsSearchComponent implements OnInit {
         this.shops=this.data.shops;
       }
     )
+
+     
   }
   //(data: Shops[]) => {this.shops = data ;}
 

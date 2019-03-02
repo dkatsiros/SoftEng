@@ -13,21 +13,21 @@ export class ApiProductsService {
   constructor(private httpClient: HttpClient) {};
   
   public createProducts(product: Products){
-    return this.httpClient.post(`${this.apiURL}/products/`,product);
+    return this.httpClient.post(`${this.apiURL}products/`,product);
 
   };
   public updateProducts(product: Products){
-    return this.httpClient.put(`${this.apiURL}/products/${product.id}`,product);
+    return this.httpClient.put(`${this.apiURL}products/${product.id}`,product);
 
   };
 
 public patchProdcuts(product: Products){ // ELEGXOS TO PATCH PREPEI NA STELNOUME ENA MONO PEDIO  
-    return this.httpClient.patch(`${this.apiURL}/products/${product.id}`,product);
+    return this.httpClient.patch(`${this.apiURL}products/${product.id}`,product);
 
   };
 
   public deleteProducts(id: number){
-    return this.httpClient.delete(`${this.apiURL}/products/${id}`);
+    return this.httpClient.delete(`${this.apiURL}products/${id}`);
 
   };
   public getProductsById(id: number){

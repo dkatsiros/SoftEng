@@ -23,7 +23,7 @@ export class ProductsSearchComponent implements OnInit {
       console.log(response);
         this.data=response;
         var str = JSON.stringify(this.data,null,"    ");
-        this.products=this.data.prices;
+        this.products=this.data.products;
       }
     )
   }

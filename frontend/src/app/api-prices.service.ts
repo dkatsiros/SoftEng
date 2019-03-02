@@ -13,12 +13,12 @@ export class ApiPricesService {
   constructor(private httpClient: HttpClient) {};
   
   public createPrices(price: Prices){
-    return this.httpClient.post(`${this.apiURL}/prices/`,price);
+    return this.httpClient.post(`${this.apiURL}prices/`,price);
 
   };
 
   public getPrices(url?: string){
-    return this.httpClient.get<Prices[]>(`${this.apiURL}prices?start=0&count=20`);
+    return this.httpClient.get(`${this.apiURL}prices?start=0&count=20`);
 
   };
 
