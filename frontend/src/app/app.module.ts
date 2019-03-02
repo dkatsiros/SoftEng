@@ -30,6 +30,7 @@ import { InsertShopComponent } from './insert-shop/insert-shop.component';
 import { RegisteredComponent } from './registered/registered.component';
 
 import { PricesSearchComponent } from './prices-search/prices-search.component';
+import { AlertComponent } from './alert/alert.component';
 
 
 @NgModule({
@@ -53,6 +54,8 @@ import { PricesSearchComponent } from './prices-search/prices-search.component';
     RegisteredComponent,
 
     PricesSearchComponent,
+
+    AlertComponent,
 
 
   ],
