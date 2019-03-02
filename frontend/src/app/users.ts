@@ -5,4 +5,5 @@ export class Users {
     name:string;
     point: number;
     token: string;
+    
 }

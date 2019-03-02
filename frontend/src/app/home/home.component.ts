@@ -9,10 +9,11 @@ export class HomeComponent implements OnInit {
 
   constructor() { }
 
-  isRegistered: boolean = false;
+  isRegistered: boolean = true;
 
   setIsRegistered(rg: boolean): void {
     this.isRegistered = rg;
+
   }
 
   getIsRegistered(): boolean {

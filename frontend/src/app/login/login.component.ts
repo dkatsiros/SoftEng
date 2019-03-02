@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute,Router } from '@angular/router';
+import { first } from 'rxjs/operators';
+import { AlertService, AuthenticationService } from '../services';
+
+
 
 
 
@@ -11,8 +16,13 @@ import { HttpClient } from '@angular/common/http';
 })
 export class LoginComponent implements OnInit {
 
-  userLogin
-  constructor(private formBuilder: FormBuilder) { }
+  userLogin: FormGroup;
+  loading=false ;
+  submitted= false;
+  returnUrl:string;
+
+  constructor(private formBuilder: FormBuilder,private root: ActivatedRoute, private rooter: Router, 
+  private authenticationService: AuthenticationService, private alertService : AlertService) { }
 
   ngOnInit() {
     this.userLogin = this.formBuilder.group({
