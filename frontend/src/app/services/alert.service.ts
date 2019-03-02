@@ -9,5 +9,7 @@ import { Router, NavigationStart } from '@angular/router';
 export class AlertService {
   private subject = new Subject<any>();
   private keepAfterNavigationChange = false;
-  constructor() { }
+  constructor(private rooter: Router) {
+    
+   }
 }
