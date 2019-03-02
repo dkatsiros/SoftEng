@@ -2,7 +2,7 @@
 
 <nav>
 
-    <div *ngIf="g(); then logedin else notlogedin"></div>
+    <div *ngIf="!g(); then logedin else notlogedin"></div>
     <ng-template #logedin>
      
 

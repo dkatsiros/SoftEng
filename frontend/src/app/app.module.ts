@@ -27,7 +27,6 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { InsertComponent } from './insert/insert.component';
 import { InsertProductComponent } from './insert-product/insert-product.component';
 import { InsertShopComponent } from './insert-shop/insert-shop.component';
-import { RegisteredComponent } from './registered/registered.component';
 
 import { PricesSearchComponent } from './prices-search/prices-search.component';
 import { AlertComponent } from './alert/alert.component';
@@ -53,7 +52,6 @@ import { getToken } from '@angular/router/src/utils/preactivation';
     InsertComponent,
     InsertProductComponent,
     InsertShopComponent,
-    RegisteredComponent,
     
     PricesSearchComponent,
 
