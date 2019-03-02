@@ -14,5 +14,5 @@ export class UserService {
 
   register(user: Users) {
     return this.http.post(`${this.apiURL}/register`, user);
-}
+  } 
 }

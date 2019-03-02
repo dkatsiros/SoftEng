@@ -1,4 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, fromEvent } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { JwtHelperService } from '@auth0/angular-jwt';
+
+
+
+export const token: string = 'jwt_token';
+
+
+
 
 @Component({
   selector: 'app-home',
@@ -7,20 +18,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  g() { localStorage.getItem(token); }
 
-  isRegistered: boolean = true;
-
-  setIsRegistered(rg: boolean): void {
-    this.isRegistered = rg;
-
-  }
-
-  getIsRegistered(): boolean {
-    return this.isRegistered;
-  }
-
-  ngOnInit() {
+    ngOnInit() {
   }
 
 }

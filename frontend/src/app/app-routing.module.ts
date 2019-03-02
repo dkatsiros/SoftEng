@@ -11,6 +11,11 @@ import { SearchComponent } from './search/search.component';
 import { ProductsSearchComponent } from './products-search/products-search.component';
 import { ShopsSearchComponent } from './shops-search/shops-search.component';
 import {PricesSearchComponent}  from './prices-search/prices-search.component';
+import { InsertComponent } from './insert/insert.component';
+import {InsertPriceComponent} from './insert-price/insert-price.component';
+import {InsertProductComponent} from './insert-product/insert-product.component';
+import {InsertShopComponent}  from './insert-shop/insert-shop.component';
+
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -20,6 +25,15 @@ const routes: Routes = [
       {path: 'product-search', component: ProductsSearchComponent },
       {path: 'shops-search', component: ShopsSearchComponent},
       {path: 'prices-search', component: PricesSearchComponent}
+    ]
+  },
+  {
+    
+    path: 'insert' , component : InsertComponent,
+    children:[
+      {path: 'insert-price',component: InsertPriceComponent},
+      {path: 'insert-product',component: InsertProductComponent},
+      {path: 'insert-shop',component: InsertShopComponent}
     ]
   },
   {path: 'about', component: AboutComponent },

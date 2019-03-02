@@ -19,10 +19,9 @@ export class NavComponent implements OnInit {
   title2:string =  "Search";
   title3:string =  "About";
   title4:string =  "Login";
-  title5 = "Register";
+  title5:string = "Register";
+  title6:string = "Insert";
 
-  getReg(): boolean {
-    return this.homeComp.getIsRegistered();
-  }
+ 
 
 }

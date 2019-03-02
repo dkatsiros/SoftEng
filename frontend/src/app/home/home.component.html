@@ -1,26 +1,12 @@
 <h1 class="display-4">Καλώς Ήλθατε στο e Coffee!</h1>
 
-<div *ngIf="isRegistered; then thenBlock else elseBlock"></div>
-<ng-template #thenBlock>
-  <button class="button" type="button" (click)="setIsRegistered(false)">Log Out</button>
+
+<div *ngIf="g(); then logedin else notlogedin"></div>
+<ng-template #logedin>
+
+  <a routerLink="/insert"><button class="btn btn-success pull-right" > Insert</button></a>
+
+
 </ng-template>
-<ng-template #elseBlock>
-  <button class="button" type="button" (click)="setIsRegistered(true)">Log In</button>
+<ng-template #notlogedin><a routerLink="/login"><button class="btn btn-success pull-right" > Login</button></a>
 </ng-template>
-
-<div id="map" class="map"></div>
-
-<div class="myform">
-  <input [(ngModel)]="form_name" placeholder="name" type="text" />
-  <br><br>
-  <input [(ngModel)]="form_value"  placeholder="value" type="number" />
-  <br><br>
-  <button (click)="onSave()">save</button>
-  <!-- <button></button> -->
-
-
-</div>
-
-<div class="pointer"></div>
-
-<div class="display-form"  [ngStyle]="{left:form_left + 'px',top:form_top+'px'}" >{{display_name}} : {{display_value}}</div>
