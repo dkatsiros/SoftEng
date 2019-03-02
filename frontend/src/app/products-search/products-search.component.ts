@@ -11,12 +11,21 @@ import {ApiProductsService} from '../api-products.service';
 })
 export class ProductsSearchComponent implements OnInit {
   products: Products[];
-  
+  start: number;
+  count: number;
+  total: number;
+  data: any = {};
+
   constructor(private apis: ApiProductsService) { }
+
   ngOnInit() {
-    this.apis.getProducts().subscribe((data: Products[]) => {
-      this.products= data;
-    });
-   }
+    this.apis.getProducts().subscribe(response => {
+      console.log(response);
+        this.data=response;
+        var str = JSON.stringify(this.data,null,"    ");
+        this.products=this.data.prices;
+      }
+    )
+  }
 
 }
