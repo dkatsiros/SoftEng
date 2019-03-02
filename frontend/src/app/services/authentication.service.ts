@@ -22,7 +22,7 @@ export class AuthenticationService {
    public get currentUserValue(): Users {
     return this.currentUserSubject.value;
   }
-  apiURL: string = 'https://localhost:8765/observatory/api/';
+  apiURL: string = 'http://localhost:8765/observatory/api/';
 
 
   login(username: string, password: string) {

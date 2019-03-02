@@ -32,7 +32,6 @@ import { RegisteredComponent } from './registered/registered.component';
 import { PricesSearchComponent } from './prices-search/prices-search.component';
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,7 +47,6 @@ import { PricesSearchComponent } from './prices-search/prices-search.component';
     SearchComponent,
     ProductsSearchComponent,
     ShopsSearchComponent,
-
     InsertComponent,
     InsertProductComponent,
     InsertShopComponent,

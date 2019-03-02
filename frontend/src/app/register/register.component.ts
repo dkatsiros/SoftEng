@@ -1,7 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
 import { JwtService } from '../jwt.service';
+import { first } from 'rxjs/operators';
+import { AlertService } from '../services/alert.service';
+import {UserService} from '../services/user.service' ;
+import {AuthenticationService} from '../services/authentication.service';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+
+
+
 
 @Component({
   selector: 'app-register',
@@ -9,13 +17,26 @@ import { JwtService } from '../jwt.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
+  registerForm: FormGroup;
+  loading = false;
+  submitted = false;
+  
+  constructor(private formBuilder: FormBuilder, private router: Router,
+    private authenticationService: AuthenticationService,
+    private userService: UserService,
+    private alertService: AlertService) 
+    { 
+      // redirect to home if already logged in
+      if (this.authenticationService.currentUserValue) { 
+          this.router.navigate(['/']);
+      }
+  }
 
-  userRegister
-  constructor(private formBuilder: FormBuilder, private reg: JwtService) { }
+
 
   ngOnInit() {
 
-    this.userRegister = this.formBuilder.group({
+    this.registerForm = this.formBuilder.group({
       username:['',[Validators.required]],
       name:['',[Validators.required]],
       email:['',[Validators.required]],
@@ -24,17 +45,27 @@ export class RegisterComponent implements OnInit {
     })
   }
    // convenience getter for easy access to form fields
-  get f() { return this.userRegister.controls; }
+  get f() { return this.registerForm.controls; }
 
   onSubmit(){
 
-    if (this.userRegister.valid){
+    this.submitted = true;
+    if (this.registerForm.valid){
+      this.loading = true;
       console.log(this.f.name);
-      this.reg.register(this.f.username,this.f.name,this.f.email,this.f.password);
-      alert('User form Validsasas');
+      this.userService.register(this.registerForm.value)
+      .pipe(first())
+      .subscribe(
+          data => {
+              this.alertService.success('Registration successful', true);
+              this.router.navigate(['/login']);
+          },
+          error => {
+              this.alertService.error(error);
+              this.loading = false;
+          });
     }
     else{
-      console.log(this.f.name);
       alert('User form Invalid');
     }
 
