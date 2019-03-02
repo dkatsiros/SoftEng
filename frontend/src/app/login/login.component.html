@@ -1,8 +1,6 @@
-<hr>
-
 <form [formGroup]="userLogin" (ngSubmit)="onSubmit()" class="text-center border border-light p-5">
 
-  <p class="h4 mb-4">Sign in</p>
+  <h1 class="display-4">Sign in</h1>
 
   <div class="form-row mb-4">
     <div class="col">
@@ -12,10 +10,9 @@
     <div>
       <input type="password" formControlName="password" id="defaultLoginFormPassword" class="form-control mb-4"
       placeholder="Password">
-      
+
     </div>
-    <button class="btn btn-info my-4 btn-block" type="submit">Login</button>
+    <button class="button" type="submit">Login</button>
   </div>
-  <hr>
 
 </form>

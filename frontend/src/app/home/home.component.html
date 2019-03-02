@@ -1,3 +1,9 @@
-<p>
-  home works!
-</p>
+<h1 class="display-4">Καλώς Ήλθατε στο e Coffee!</h1>
+
+<div *ngIf="isRegistered; then thenBlock else elseBlock"></div>
+<ng-template #thenBlock>
+  <button class="button" type="button" (click)="setIsRegistered(false)">Log Out</button>
+</ng-template>
+<ng-template #elseBlock>
+  <button class="button" type="button" (click)="setIsRegistered(true)">Log In</button>
+</ng-template>

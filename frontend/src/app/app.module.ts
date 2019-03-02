@@ -24,6 +24,14 @@ import { ProductsSearchComponent } from './products-search/products-search.compo
 import { ShopsSearchComponent } from './shops-search/shops-search.component';
 import { JwtModule } from '@auth0/angular-jwt';
 
+import { InsertComponent } from './insert/insert.component';
+import { InsertProductComponent } from './insert-product/insert-product.component';
+import { InsertShopComponent } from './insert-shop/insert-shop.component';
+import { RegisteredComponent } from './registered/registered.component';
+
+import { PricesSearchComponent } from './prices-search/prices-search.component';
+
+
 
 @NgModule({
   declarations: [
@@ -40,7 +48,15 @@ import { JwtModule } from '@auth0/angular-jwt';
     SearchComponent,
     ProductsSearchComponent,
     ShopsSearchComponent,
-    
+
+    InsertComponent,
+    InsertProductComponent,
+    InsertShopComponent,
+    RegisteredComponent,
+
+    PricesSearchComponent,
+
+
   ],
   imports: [
     BrowserModule,

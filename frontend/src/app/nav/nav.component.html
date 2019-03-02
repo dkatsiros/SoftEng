@@ -1,13 +1,19 @@
 <header>
   <div class="container">
-    <a routerLink="/" class="logo">{{appTitle}}</a>
+    <img src="favicon.ico" alt="Avatar" class="image">
     <nav>
       <ul>
         <li><a routerLink="/">{{title1}}</a></li>
         <li><a routerLink="search">{{title2}}</a></li>
         <li><a routerLink="/about">{{title3}}</a></li>
-        <li><a routerLink="/login">{{title4}} </a></li>
-        <li><a routerLink="/register">{{title5}} </a></li>
+        <div *ngIf="getReg(); then thenBlock else elseBlock"></div>
+        <ng-template #thenBlock>
+            <li><a routerLink="/insert">Insert</a></li>
+        </ng-template>
+        <ng-template #elseBlock>
+          <li><a routerLink="/login">{{title4}} </a></li>
+          <li><a routerLink="/register">{{title5}} </a></li>
+        </ng-template>
       </ul>
     </nav>
   </div>
