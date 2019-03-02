@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Shops } from './shops';
 
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -36,7 +37,7 @@ public patchShops(shop: Shops){ // ELEGXOS TO PATCH PREPEI NA STELNOUME ENA MONO
   };
 
   public getShops(url?: string){
-    return this.httpClient.get<Shops[]>(`${this.apiURL}shops?start=0&count=20`);
+    return this.httpClient.get(`${this.apiURL}shops?start=0&count=20`);
 
   };
 
