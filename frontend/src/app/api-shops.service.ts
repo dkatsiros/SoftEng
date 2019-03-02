@@ -8,7 +8,7 @@ import { Shops } from './shops';
 })
 export class ApiShopsService {
  
-  apiURL: string = 'https://localhost:8765/observatory/api/';
+  apiURL: string = 'http://localhost:8765/observatory/api/';
   
   constructor(private httpClient: HttpClient) {};
   
@@ -36,7 +36,7 @@ public patchShops(shop: Shops){ // ELEGXOS TO PATCH PREPEI NA STELNOUME ENA MONO
   };
 
   public getShops(url?: string){
-    return this.httpClient.get<Shops[]>(`${this.apiURL}/shops`);
+    return this.httpClient.get<Shops[]>(`${this.apiURL}shops?start=0&count=20`);
 
   };
 

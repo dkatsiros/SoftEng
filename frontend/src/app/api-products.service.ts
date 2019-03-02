@@ -8,7 +8,7 @@ import { Products } from './products';
 })
 export class ApiProductsService {
   
-  apiURL: string = 'https://localhost:8765/observatory/api/';
+  apiURL: string = 'http://localhost:8765/observatory/api/';
   
   constructor(private httpClient: HttpClient) {};
   
@@ -36,7 +36,7 @@ public patchProdcuts(product: Products){ // ELEGXOS TO PATCH PREPEI NA STELNOUME
   };
 
   public getProducts(url?: string){
-    return this.httpClient.get<Products[]>(`${this.apiURL}/products`);
+    return this.httpClient.get<Products[]>(`${this.apiURL}products?start=0&count=20`);
 
   };
 

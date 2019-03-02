@@ -7,3 +7,20 @@
 <ng-template #elseBlock>
   <button class="button" type="button" (click)="setIsRegistered(true)">Log In</button>
 </ng-template>
+
+<div id="map" class="map"></div>
+
+<div class="myform">
+  <input [(ngModel)]="form_name" placeholder="name" type="text" />
+  <br><br>
+  <input [(ngModel)]="form_value"  placeholder="value" type="number" />
+  <br><br>
+  <button (click)="onSave()">save</button>
+  <!-- <button></button> -->
+
+
+</div>
+
+<div class="pointer"></div>
+
+<div class="display-form"  [ngStyle]="{left:form_left + 'px',top:form_top+'px'}" >{{display_name}} : {{display_value}}</div>
