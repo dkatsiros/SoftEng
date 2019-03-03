@@ -32,6 +32,7 @@ import { PricesSearchComponent } from './prices-search/prices-search.component';
 import { AlertComponent } from './alert/alert.component';
 import { InsertPriceComponent } from './insert-price/insert-price.component';
 import { getToken } from '@angular/router/src/utils/preactivation';
+import { AdminComponent } from './admin/admin.component';
 
 
 @NgModule({
@@ -58,6 +59,8 @@ import { getToken } from '@angular/router/src/utils/preactivation';
     AlertComponent,
 
     InsertPriceComponent,
+
+    AdminComponent,
 
 
   ],
