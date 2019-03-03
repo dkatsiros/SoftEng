@@ -3,40 +3,41 @@ import { HttpClient } from '@angular/common/http';
 import { Shops } from './shops';
 
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class ApiShopsService {
  
-  apiURL: string = 'https://localhost:8765/observatory/api/';
+  apiURL: string = 'http://localhost:8765/observatory/api/';
   
   constructor(private httpClient: HttpClient) {};
   
   public createShops(shop: Shops){
-    return this.httpClient.post(`${this.apiURL}/shops`,shop);
+    return this.httpClient.post(`${this.apiURL}shops`,shop);
 
   };
   public updateShops(shop: Shops){
-    return this.httpClient.put(`${this.apiURL}/shops/${shop.id}`,shop);
+    return this.httpClient.put(`${this.apiURL}shops/${shop.id}`,shop);
 
   };
 
 public patchShops(shop: Shops){ // ELEGXOS TO PATCH PREPEI NA STELNOUME ENA MONO PEDIO  
-    return this.httpClient.patch(`${this.apiURL}/shops/${shop.id}`,shop);
+    return this.httpClient.patch(`${this.apiURL}shops/${shop.id}`,shop);
 
   };
 
   public deleteShops(id: number){
-    return this.httpClient.delete(`${this.apiURL}/shops/${id}`);
+    return this.httpClient.delete(`${this.apiURL}shops/${id}`);
 
   };
   public getShopsById(id: number){
-    return this.httpClient.get(`${this.apiURL}/shops/${id}`);
+    return this.httpClient.get(`${this.apiURL}shops/${id}`);
 
   };
 
   public getShops(url?: string){
-    return this.httpClient.get<Shops[]>(`${this.apiURL}/shops`);
+    return this.httpClient.get(`${this.apiURL}shops?start=0&count=20`);
 
   };
 

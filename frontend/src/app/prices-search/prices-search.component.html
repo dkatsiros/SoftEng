@@ -1,0 +1,24 @@
+<table>
+  <thead>
+    <tr>
+      <td>Start</td>
+      <td>Count</td>
+      <td>Total</td>
+      <td>Prices</td>
+    </tr>
+  </thead>
+  <tbody>
+
+    <td>{{data.start}}</td>
+    <td>{{data.count}}</td>
+    <td>{{data.total}}</td>
+    <table>
+        <div *ngFor="let Price of prices">
+          <ul>
+            {{Price.price}} , {{Price.productName}}, {{Price.productTags}}, {{Price.shopName}}, {{Price.shopTags}}
+          </ul>
+         </div>
+     
+    </table>
+  </tbody>
+</table>

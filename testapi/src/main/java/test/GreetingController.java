@@ -9,8 +9,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
-
+import org.aspectj.weaver.reflect.IReflectionWorld;
 import org.assertj.core.util.DateUtil;
+import org.hibernate.id.ResultSetIdentifierConsumer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import test.Price;
 import test.PriceRepository;
 import test.Product;
@@ -33,14 +33,14 @@ import test.Shop;
 import test.Shopout;
 import test.ShopRepository;
 import test.Priceout;
+import test.PagingProduct;
+import test.PagingShop;
  
 @RestController
 public class GreetingController {
 //implements ErrorController {
 	
 	private static final String PATH="/error";
-	private static final String template = "Hello, %s!";
-	private final AtomicLong counter = new AtomicLong();
 	@Autowired
 	private ProductRepository ProductRepository;
 	@Autowired
@@ -48,14 +48,10 @@ public class GreetingController {
 	@Autowired
 	private PriceRepository PriceRepository;
 	
-	@RequestMapping("/greeting")
-	public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) {
-		return new Greeting(counter.incrementAndGet(), String.format(template, name));
-	}
-	
 	@GetMapping (path = "/products")
-	public @ResponseBody List<Productout> getAllProducts(@RequestParam Optional<String> status, @RequestParam Optional<String> sort) {
-		int size = 0, i;
+	public PagingProduct getAllProducts(@RequestParam Optional<String> status, @RequestParam Optional<String> sort,
+			@RequestParam Optional<Integer> start, @RequestParam Optional<Integer> count) {
+		int size = 0, i, total;
 		List<Productout> productsout = new ArrayList<>();
 		List<Product> products = new ArrayList<>();
 		if (!status.isPresent()) {
@@ -89,7 +85,15 @@ public class GreetingController {
 			Productout productout = new Productout(products.get(i));
 			productsout.add(productout);
 		}
-		return productsout;
+		
+		total = size;
+		PagingProduct out = new PagingProduct(start.get(), count.get(), total);
+		if (count.get() < total) size = count.get();
+		else size = total;
+		for (i=0; i<size; i++) {
+			out.products.add(productsout.get(i));
+		}
+		return out;
 	}
 	
 	@GetMapping("/products/{id}")
@@ -154,12 +158,12 @@ public class GreetingController {
 		ProductRepository.save(p);
 		Productout productout = new Productout(p);
 		return productout;
-		//return "Done";
 	}
 	
-	@GetMapping(path = "/api/shops")
-	public @ResponseBody List<Shopout> getAllShops(@RequestParam Optional<String> status, @RequestParam Optional<String> sort) {
-		int size=0, i;
+	@GetMapping(path = "/shops")
+	public @ResponseBody PagingShop getAllShops(@RequestParam Optional<String> status, @RequestParam Optional<String> sort,
+			@RequestParam Optional<Integer> start, @RequestParam Optional<Integer> count) {
+		int size=0, i, total;
 		List<Shopout> shopssout = new ArrayList<>();
 		List<Shop> shops = new ArrayList<>();
 		if (!status.isPresent()) {
@@ -193,7 +197,14 @@ public class GreetingController {
 			Shopout shopout = new Shopout(shops.get(i));
 			shopssout.add(shopout);
 		}
-		return shopssout;
+		total = size;
+		PagingShop out = new PagingShop(start.get(), count.get(), total);
+		if (count.get() < total) size = count.get();
+		else size = total;
+		for (i=0; i<size; i++) {
+			out.shops.add(shopssout.get(i));
+		}
+		return out;
 	}
 	
 	
@@ -266,10 +277,11 @@ public class GreetingController {
 	
 	
 	@GetMapping("/prices")
-	public @ResponseBody List<Priceout> getallPrices(@RequestParam Optional<List<Integer>> Productsid, @RequestParam Optional<List<Integer>> Shopsid,
+	public @ResponseBody PagingPrice getallPrices(@RequestParam Optional<List<Integer>> Productsid, @RequestParam Optional<List<Integer>> Shopsid,
 			@RequestParam Optional<Integer> geoDst, @RequestParam Optional<Double> geoLng, @RequestParam Optional<Double> geoLat,
-			@RequestParam Optional<Date> dateFrom, @RequestParam Optional<Date> dateTo, @RequestParam Optional<List<String>> tags ) {
-		int size=0, i;
+			@RequestParam Optional<Date> dateFrom, @RequestParam Optional<Date> dateTo, @RequestParam Optional<List<String>> tags,
+			@RequestParam Optional<String> sort, @RequestParam Optional<Integer> start, @RequestParam Optional<Integer> count) {
+		int size=0, i, total;
 		List<Priceout> result = new ArrayList<>();
 		List<Price> prices = new ArrayList<>();
 		List<Price> priceout = new ArrayList<>();
@@ -387,7 +399,33 @@ public class GreetingController {
 			Priceout newresult = new Priceout(priceout3.get(i), distances.get(i), date);
 			result.add(newresult);
 		}
-		return result;
+		if(!sort.isPresent()) {
+			result.sort(Comparator.comparing(Priceout::getprice));
+		}
+		else {
+			if (sort.get().equals("price/ASC")) {
+				result.sort(Comparator.comparing(Priceout::getprice));
+			}
+			if (sort.get().equals("price/DESC")) {
+				result.sort(Comparator.comparing(Priceout::getprice).reversed());
+			}
+			if (sort.get().equals("geoDist/ASC")) {
+				result.sort(Comparator.comparing(Priceout::getdist));
+			}
+			if (sort.get().equals("geoDist/DESC")) {
+				result.sort(Comparator.comparing(Priceout::getdist).reversed());
+			}
+		}
+		total = size;
+		PagingPrice out = new PagingPrice(start.get(), count.get(), total);
+		if (count.get() < total) size = count.get();
+		else size = total;
+		for (i=0; i<size; i++) {
+			out.products.add(result.get(i));
+		}
+		return out;
+		
+		//return result;
 		//return priceout3;
 	}
 	

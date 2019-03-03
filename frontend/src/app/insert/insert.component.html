@@ -1,0 +1,30 @@
+<h1>Τι θέλετε να προσθέσετε;</h1>
+
+<nav>
+
+    <div *ngIf="!g(); then logedin else notlogedin"></div>
+    <ng-template #logedin>
+     
+
+  <label class="container">Product
+    <input type="radio" checked="checked" name="radio" routerLink="insert-product">
+    <span class="checkmark"></span>
+  </label>
+  <label class="container">Shop
+    <input type="radio" name="radio" routerLink="insert-shop">
+    <span class="checkmark"></span>
+  </label>
+  <label class="container">Prices
+    <input type="radio" name="radio" routerLink="insert-price">
+    <span class="checkmark"></span>
+  </label>
+
+</ng-template>
+
+<ng-template #notlogedin>
+  not loged int kane eisodo mlk
+  <a routerLink="/login"><button class="btn btn-success pull-right" > Login</button></a>
+
+</ng-template>
+</nav>
+<router-outlet></router-outlet>

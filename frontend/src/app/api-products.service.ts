@@ -8,26 +8,26 @@ import { Products } from './products';
 })
 export class ApiProductsService {
   
-  apiURL: string = 'https://localhost:8765/observatory/api/';
+  apiURL: string = 'http://localhost:8765/observatory/api/';
   
   constructor(private httpClient: HttpClient) {};
   
   public createProducts(product: Products){
-    return this.httpClient.post(`${this.apiURL}/products/`,product);
+    return this.httpClient.post(`${this.apiURL}products/`,product);
 
   };
   public updateProducts(product: Products){
-    return this.httpClient.put(`${this.apiURL}/products/${product.id}`,product);
+    return this.httpClient.put(`${this.apiURL}products/${product.id}`,product);
 
   };
 
 public patchProdcuts(product: Products){ // ELEGXOS TO PATCH PREPEI NA STELNOUME ENA MONO PEDIO  
-    return this.httpClient.patch(`${this.apiURL}/products/${product.id}`,product);
+    return this.httpClient.patch(`${this.apiURL}products/${product.id}`,product);
 
   };
 
   public deleteProducts(id: number){
-    return this.httpClient.delete(`${this.apiURL}/products/${id}`);
+    return this.httpClient.delete(`${this.apiURL}products/${id}`);
 
   };
   public getProductsById(id: number){
@@ -36,7 +36,7 @@ public patchProdcuts(product: Products){ // ELEGXOS TO PATCH PREPEI NA STELNOUME
   };
 
   public getProducts(url?: string){
-    return this.httpClient.get<Products[]>(`${this.apiURL}/products`);
+    return this.httpClient.get<Products[]>(`${this.apiURL}products?start=0&count=20`);
 
   };
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Shops } from '../shops';
-import { ApiShopsService } from '../api-shops.service'; 
+import { ApiShopsService } from '../api-shops.service';
 
 @Component({
   selector: 'app-shops-search',
@@ -9,11 +9,25 @@ import { ApiShopsService } from '../api-shops.service';
 })
 export class ShopsSearchComponent implements OnInit {
   shops: Shops[];
-
+  start: number;
+  count: number;
+  total: number;
+  data: any = {};
+data2: any={};
   constructor(private apis: ApiShopsService) { }
 
   ngOnInit() {
-    this.apis.getShops().subscribe((data: Shops[]) => {this.shops = data ;});
+   
+    this.apis.getShops().subscribe(response => {
+      console.log(response);
+        this.data=response;
+        var str = JSON.stringify(this.data,null,"    ");
+        this.shops=this.data.shops;
+      }
+    )
+
+     
   }
+  //(data: Shops[]) => {this.shops = data ;}
 
 }

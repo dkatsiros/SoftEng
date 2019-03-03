@@ -8,17 +8,17 @@ import { Prices } from './prices';
 export class ApiPricesService {
 
  
-  apiURL: string = 'https://localhost:8765/observatory/api/';
+  apiURL: string = 'http://localhost:8765/observatory/api/';
   
   constructor(private httpClient: HttpClient) {};
   
   public createPrices(price: Prices){
-    return this.httpClient.post(`${this.apiURL}/prices/`,price);
+    return this.httpClient.post(`${this.apiURL}prices/`,price);
 
   };
 
   public getPrices(url?: string){
-    return this.httpClient.get<Prices[]>(`${this.apiURL}/prices`);
+    return this.httpClient.get(`${this.apiURL}prices?start=0&count=20`);
 
   };
 

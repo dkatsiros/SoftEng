@@ -1,3 +1,23 @@
-<p>
-  shops-search works!
-</p>
+<table>
+  <thead>
+    <tr>
+      <td>Start</td>
+      <td>Count</td>
+      <td>Total</td>
+      <td>Shops</td>
+    </tr>
+  </thead>
+  <tbody>
+
+    <td>{{data.start}}</td>
+    <td>{{data.count}}</td>
+    <td>{{data.total}}</td>
+    <table>
+        <div *ngFor="let shop of shops">
+          <ul>
+            {{shop.id}} , {{shop.name}}, {{shop.address}}, {{shop.tags}}
+          </ul>
+         </div>
+    </table>
+  </tbody>
+</table>

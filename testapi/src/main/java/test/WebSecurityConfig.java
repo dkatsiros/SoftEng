@@ -43,17 +43,12 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 
-import test.MyLogoutSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired		
 	private AuthTokenRepository AuthTokenRepository;
-	@Autowired
-	private MyLogoutSuccessHandler myLogoutSuccessHandler;
-	@Autowired
-	private MyLogoutHandler myLogoutHandler;
 	private UserDetailsServiceImpl userDetailsService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
    

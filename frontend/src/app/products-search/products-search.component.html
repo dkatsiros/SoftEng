@@ -1,3 +1,24 @@
-<p>
-  products-search works!
-</p>
+<table>
+  <thead>
+    <tr>
+      <td>Start</td>
+      <td>Count</td>
+      <td>Total</td>
+      <td>Products</td>
+    </tr>
+  </thead>
+  <tbody>
+
+    <td>{{data.start}}</td>
+    <td>{{data.count}}</td>
+    <td>{{data.total}}</td>
+    <table>
+        <div *ngFor="let product of products">
+          <ul>
+            {{product.id}} , {{product.name}}, {{product.description}}, {{product.tags}}, {{product.category}}
+          </ul>
+         </div>
+     
+    </table>
+  </tbody>
+</table>
