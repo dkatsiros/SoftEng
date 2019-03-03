@@ -8,7 +8,7 @@ public class PagingPrice {
 	private Integer start;
 	private Integer count;
 	private Integer total;
-	public List<Priceout> products = new ArrayList<>();
+	public List<Priceout> prices = new ArrayList<>();
 	
 	public Integer getstart() {
 		return start;
@@ -22,8 +22,8 @@ public class PagingPrice {
 		return total;
 	}
 	
-	public List<Priceout> getproducts() {
-		return products;
+	public List<Priceout> getprices() {
+		return prices;
 	}
 	
 	public PagingPrice(Integer start, Integer count, Integer total) {

@@ -101,14 +101,34 @@ public class GreetingController {
 			Productout productout = new Productout(products.get(i));
 			productsout.add(productout);
 		}
-		
+		int start1, count1;
 		total = size;
-		PagingProduct out = new PagingProduct(start.get(), count.get(), total);
-		if (count.get() < total) size = count.get();
-		else size = total;
-		for (i=0; i<size; i++) {
-			out.products.add(productsout.get(i));
+		if (start.isPresent()) {
+			start1 = start.get();
 		}
+		else {
+			start1 = 0;
+		}
+		if (count.isPresent()) {
+			count1 = count.get();
+		}
+		else {
+			count1 = 20;
+		}
+		PagingProduct out = new PagingProduct(start1, count1, total);
+		if (count1 < total) {
+			size = count1;
+			for (i=start1; i<size+start1; i++) {
+				out.products.add(productsout.get(i));
+			}
+		}
+		else {
+			size = total;
+			for (i=start1; i<size; i++) {
+				out.products.add(productsout.get(i));
+			}
+		}
+		
 		return out;
 	}
 	
@@ -268,12 +288,32 @@ public class GreetingController {
 			Shopout shopout = new Shopout(shops.get(i));
 			shopssout.add(shopout);
 		}
+		int start1, count1;
 		total = size;
-		PagingShop out = new PagingShop(start.get(), count.get(), total);
-		if (count.get() < total) size = count.get();
-		else size = total;
-		for (i=0; i<size; i++) {
-			out.shops.add(shopssout.get(i));
+		if (start.isPresent()) {
+			start1 = start.get();
+		}
+		else {
+			start1 = 0;
+		}
+		if (count.isPresent()) {
+			count1 = count.get();
+		}
+		else {
+			count1 = 20;
+		}
+		PagingShop out = new PagingShop(start1, count1, total);
+		if (count1 < total) {
+			size = count1;
+			for (i=start1; i<size+start1; i++) {
+				out.shops.add(shopssout.get(i));
+			}
+		}
+		else {
+			size = total;
+			for (i=start1; i<size; i++) {
+				out.shops.add(shopssout.get(i));
+			}
 		}
 		return out;
 	}
@@ -404,11 +444,13 @@ public class GreetingController {
 			@RequestParam Optional<String> sort, @RequestParam Optional<Integer> start, @RequestParam Optional<Integer> count, @RequestParam Optional<String> format,
 			HttpServletResponse response) {
 		int size=0, i, total;
-		 if (format.equals("xml")) try {
+		if (format.isPresent()) {
+		 if (format.get().equals("xml")) try {
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Change your format to json & try again");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		}
 		List<Priceout> result = new ArrayList<>();
 		List<Price> prices = new ArrayList<>();
 		List<Price> priceout = new ArrayList<>();
@@ -543,12 +585,32 @@ public class GreetingController {
 				result.sort(Comparator.comparing(Priceout::getdist).reversed());
 			}
 		}
+		int start1, count1;
 		total = size;
-		PagingPrice out = new PagingPrice(start.get(), count.get(), total);
-		if (count.get() < total) size = count.get();
-		else size = total;
-		for (i=0; i<size; i++) {
-			out.products.add(result.get(i));
+		if (start.isPresent()) {
+			start1 = start.get();
+		}
+		else {
+			start1 = 0;
+		}
+		if (count.isPresent()) {
+			count1 = count.get();
+		}
+		else {
+			count1 = 20;
+		}
+		PagingPrice out = new PagingPrice(start1, count1, total);
+		if (count1 < total) {
+			size = count1;
+			for (i=start1; i<size+start1; i++) {
+				out.prices.add(result.get(i));
+			}
+		}
+		else {
+			size = total;
+			for (i=start1; i<size; i++) {
+				out.prices.add(result.get(i));
+			}
 		}
 		return out;
 		
@@ -557,7 +619,7 @@ public class GreetingController {
 	}
 	
 	@PostMapping("/api/prices")
-	public @ResponseBody String addPrice(@RequestParam Double price, @RequestParam Integer productid, @RequestParam Integer shopid,
+	public @ResponseBody Priceout addPrice(@RequestParam Double price, @RequestParam Integer productid, @RequestParam Integer shopid,
 			@RequestParam Date dateFrom, @RequestParam Date dateTo, HttpServletRequest request,HttpServletResponse response, @RequestParam Optional<String> format) {
 		Price p = new Price();
 		 if (format.equals("xml")) try {
@@ -585,7 +647,8 @@ public class GreetingController {
 		p.setthumbsdown(0);
 		p.setthumbsup(0);
 		PriceRepository.save(p);
-		return "done";
+		Priceout priceout = new Priceout(p, 0, dateFrom);
+		return priceout;
 	}
 	
 	/*

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import test.AuthToken;
 import test.AuthTokenRepository;
+import test.ApplicationUser;
 
 @RestController
 public class UserController {
@@ -39,14 +40,23 @@ public class UserController {
     }
 
     @PostMapping("/api/sign-up")
-    public String signUp(@RequestBody ApplicationUser user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+    public String signUp(@RequestParam String username, @RequestParam String password, @RequestParam String lname,
+    		@RequestParam String fname, @RequestParam String email) {
+        //user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         /*
         user.setEmail(user.getEmail());
         user.setFname(user.getEmail());
         user.setLname(user.getEmail());
         user.setPoints(0);
         */
+    	ApplicationUser user = new ApplicationUser();
+    	user.setUsername(username);
+    	user.setPassword(bCryptPasswordEncoder.encode(password));
+    	user.setFname(fname);
+    	user.setLname(lname);
+    	user.setEmail(email);
+    	user.setrole("USER");
+    	user.setPoints(0);
         applicationUserRepository.save(user);
 		return "Done signing up";
 

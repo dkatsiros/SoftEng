@@ -14,13 +14,10 @@ public class ApplicationUser {
     private String username;
     private String password;
     private String role;
-
-    /*
     private String email;
-    private String first_name;
-    private String last_name;
+    private String fname;
+    private String lname;
     private int points;
-    */
     
     public long getId() {
         return id;
@@ -47,7 +44,7 @@ public class ApplicationUser {
 	public void setrole(String role) {
 		this.role = role;
 	}
-    /*
+    
     public String getEmail() {
         return email;
     }
@@ -56,17 +53,17 @@ public class ApplicationUser {
     }
 
     public String getFname() {
-        return first_name;
+        return fname;
     }
     public void setFname(String first_name) {
-        this.first_name = first_name;
+        this.fname = first_name;
     }
 
     public String getLname() {
-        return last_name;
+        return lname;
     }
     public void setLname(String last_name) {
-        this.last_name = last_name;
+        this.lname = last_name;
     }
 
     public int getPoints() {
@@ -75,7 +72,7 @@ public class ApplicationUser {
     public void setPoints(int points) {
         this.points = points;
     }
-    */
+  
     
     
 }
