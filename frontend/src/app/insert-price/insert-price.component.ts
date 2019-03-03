@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { AlertService } from '../services/alert.service';
-import {ApiProductsService} from '../api-products.service' ;
+import {ApiPricesService} from '../api-prices.service' ;
 import {AuthenticationService} from '../services/authentication.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -17,8 +17,7 @@ export class InsertPriceComponent implements OnInit {
   submitted = false;
   
   constructor(private formBuilder: FormBuilder, private router: Router,
-    private authenticationService: AuthenticationService,
-    private productService: ApiProductsService,
+    private pricesService: ApiPricesService,
     private alertService: AlertService) {}
 
   ngOnInit() {
@@ -38,7 +37,7 @@ export class InsertPriceComponent implements OnInit {
     this.submitted = true;
     if (this.insertForm.valid){
       this.loading = true;
-      this.productService.createProducts(this.insertForm.value)
+      this.pricesService.createPrices(this.insertForm.value)
       .pipe(first())
       .subscribe(
           data => {
