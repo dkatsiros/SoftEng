@@ -21,6 +21,7 @@ export class NavComponent implements OnInit {
   title4:string =  "Login";
   title5:string = "Register";
   title6:string = "Insert";
+  title7:string= "Map";
 
  
 

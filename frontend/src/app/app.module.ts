@@ -33,6 +33,7 @@ import { AlertComponent } from './alert/alert.component';
 import { InsertPriceComponent } from './insert-price/insert-price.component';
 import { getToken } from '@angular/router/src/utils/preactivation';
 import { AdminComponent } from './admin/admin.component';
+import { MapComponent } from './map/map.component';
 
 
 @NgModule({
@@ -61,6 +62,8 @@ import { AdminComponent } from './admin/admin.component';
     InsertPriceComponent,
 
     AdminComponent,
+
+    MapComponent,
 
 
   ],

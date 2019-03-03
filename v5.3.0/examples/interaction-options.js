@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[62],{287:function(n,e,o){"use strict";o.r(e);var a=o(3),s=o(2),t=o(49),w=o(6),c=o(12);new a.a({interactions:Object(t.a)({constrainResolution:!0,onFocusOnly:!0}),layers:[new w.a({source:new c.b})],target:"map",view:new s.a({center:[0,0],zoom:2})})}},[[287,0]]]);
+//# sourceMappingURL=interaction-options.js.map

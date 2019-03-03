@@ -26,6 +26,8 @@
     "@auth0/angular-jwt": "^2.1.0",
     "angular-material": "^1.1.13",
     "core-js": "^2.5.4",
+    "ol": "^5.3.1",
+    "openlayers": "^4.6.5",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"
@@ -38,6 +40,7 @@
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",
+    "@types/openlayers": "^4.6.16",
     "codelyzer": "~4.5.0",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",

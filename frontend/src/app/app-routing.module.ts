@@ -15,7 +15,7 @@ import { InsertComponent } from './insert/insert.component';
 import {InsertPriceComponent} from './insert-price/insert-price.component';
 import {InsertProductComponent} from './insert-product/insert-product.component';
 import {InsertShopComponent}  from './insert-shop/insert-shop.component';
-
+import {MapComponent} from './map/map.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -38,7 +38,8 @@ const routes: Routes = [
   },
   {path: 'about', component: AboutComponent },
   {path: 'login', component: LoginComponent},
-  {path: 'register',component: RegisterComponent}
+  {path: 'register',component: RegisterComponent},
+  {path: 'map',component: MapComponent}
 ];
 
 @NgModule({

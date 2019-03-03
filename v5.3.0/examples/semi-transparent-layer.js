@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[113],{337:function(e,a,n){"use strict";n.r(a);var o=n(3),s=n(2),r=n(6),w=n(5),t=n(12),c=n(62);new o.a({layers:[new r.a({source:new t.b}),new r.a({source:new c.a({url:"https://api.tiles.mapbox.com/v3/mapbox.va-quake-aug.json?secure",crossOrigin:"anonymous",transition:0})})],target:"map",view:new s.a({center:Object(w.f)([-77.93255,37.9555]),zoom:7})})}},[[337,0]]]);
+//# sourceMappingURL=semi-transparent-layer.js.map
