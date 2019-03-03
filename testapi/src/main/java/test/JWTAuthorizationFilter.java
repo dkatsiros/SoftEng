@@ -3,6 +3,8 @@ package test;
 //authoriz gia na synexisei n isxyei TSEKAREI TO TOKEN
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,30 +16,30 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import test.AuthToken;
+import test.AuthTokenRepository;
 import static test.SecurityConstants.HEADER_STRING;
 import static test.SecurityConstants.SECRET;
 import static test.SecurityConstants.TOKEN_PREFIX;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
-
+	 @Autowired
+	 private AuthTokenRepository authTokenRepository;
+	 
     public JWTAuthorizationFilter(AuthenticationManager authManager) {
         super(authManager);
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest req,
-                                    HttpServletResponse res,
-                                    FilterChain chain) throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest req,HttpServletResponse res,FilterChain chain) throws IOException, ServletException {
         String header = req.getHeader(HEADER_STRING);
-
         if (header == null || !header.startsWith(TOKEN_PREFIX)) {
             chain.doFilter(req, res);
             return; //once per request filter (adiaforo)
         }
 
         UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
-
+        //authentication.setAuthenticated(false);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         chain.doFilter(req, res);
     }
@@ -54,7 +56,6 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
                     .build()
                     .verify(token.replace(TOKEN_PREFIX, ""))
                     .getSubject();
-            //System.out.println("edw exoyme to token"+ token +"kai to user"+ user); ara einai ontws token kai username
             if (user != null) {
                 return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
             }

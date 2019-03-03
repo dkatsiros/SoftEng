@@ -1,8 +1,7 @@
 package test;
 
-import org.springframework.data.repository.CrudRepository;
-import test.AuthToken;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AuthTokenRepository extends CrudRepository<AuthToken, Integer>  {
-
+public interface AuthTokenRepository extends JpaRepository<AuthToken, Long>  {
+	AuthToken findByValue(String value);
 }

@@ -141,8 +141,8 @@ public class GreetingController {
 		Productout productout = new Productout(product.get());
 		return productout;
 	}
-	 
-	@PostMapping (path = "/products")
+	
+	@PostMapping (path = "/products" ,produces = { "application/json; charset=utf-8" })
 	public @ResponseBody Productout addProduct(@RequestParam String name, @RequestParam String description, @RequestParam String category,
 			@RequestParam String tags) {
 		Product p = new Product();
@@ -157,7 +157,7 @@ public class GreetingController {
 		//return "Done";
 	}
 	
-	@GetMapping(path = "/shops")
+	@GetMapping(path = "/api/shops")
 	public @ResponseBody List<Shopout> getAllShops(@RequestParam Optional<String> status, @RequestParam Optional<String> sort) {
 		int size=0, i;
 		List<Shopout> shopssout = new ArrayList<>();

@@ -4,13 +4,16 @@ import static test.SecurityConstants.HEADER_STRING;
 import static test.SecurityConstants.SECRET;
 import static test.SecurityConstants.TOKEN_PREFIX;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +33,8 @@ import test.ShopRepository;
 import test.Message;
 import test.ApplicationUserRepository;
 import test.ApplicationUser;
+import test.AuthToken;
+import test.AuthTokenRepository;
 
 @RestController
 public class DeletionController {
@@ -43,13 +48,27 @@ public class DeletionController {
 	private ProductService productService;
 	@Autowired
 	private ShopService shopService;
+	@Autowired
+	private AuthTokenRepository authTokenRepository;
+	
 
 	
 	@DeleteMapping("/products/{id}")
-	public Message deleteProductbyId(@PathVariable int id, HttpServletRequest request) {
+	public Message deleteProductbyId(@PathVariable int id, HttpServletRequest request,HttpServletResponse response) {
 		Optional<Product> product = ProductRepository.findById(id);
 
 		String token = request.getHeader(HEADER_STRING);
+        AuthToken a = new AuthToken();
+        a=authTokenRepository.findByValue(token);
+        if(a==null)System.out.println("null leme");
+        else if((a.getwithdrawn()).equals(1)) {
+        try {
+			response.sendError(HttpServletResponse.SC_FORBIDDEN, "You have to login");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		}
+		
         if (token != null) {
             // parse the token.
             String user = JWT.require(Algorithm.HMAC512(SECRET.getBytes()))

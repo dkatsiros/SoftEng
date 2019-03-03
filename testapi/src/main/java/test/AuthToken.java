@@ -16,8 +16,6 @@ public class AuthToken {
 	private Integer id;
 	private String value;
 	private Integer withdrawn;
-	private String user_role;
-
 	
 	public Integer getid() {
 		return id;
@@ -29,14 +27,6 @@ public class AuthToken {
 	
 	public void setvalue(String value) {
 		this.value = value;
-	}
-	
-	public String getuser_role() {
-		return user_role;
-	}
-	
-	public void setuser_role(String user_role) {
-		this.user_role = user_role;
 	}
 	
 	public Integer getwithdrawn() {

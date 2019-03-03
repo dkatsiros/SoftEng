@@ -6,6 +6,7 @@ import test.ApplicationUser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -33,10 +34,11 @@ import test.AuthTokenRepository;
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private AuthenticationManager authenticationManager;
     @Autowired
-	private AuthTokenRepository AuthTokenRepository;
+	private AuthTokenRepository authTokenRepository;
 
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public JWTAuthenticationFilter(AuthenticationManager authenticationManager, AuthTokenRepository authTokenRepository) {
         this.authenticationManager = authenticationManager; //constructor
+        this.authTokenRepository = authTokenRepository;
     }
 
     @Override
@@ -69,15 +71,11 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .sign(HMAC512(SECRET.getBytes()));
         res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);    //dimiourgei to token poy 8eloyme    
         
-        /*
+        
         AuthToken a = new AuthToken();
 		a.setvalue(token);
-		//String usernamegiatotoken= ((User) auth.getPrincipal()).getUsername();
-		//Optional<ApplicationUser> appuser =ApplicationUserRepository.findByUsername(usernamegiatoken);
-		//a.setuser_role(appuser.getrole()); 
-		a.setuser_role("ADMIN"); //GIA TESTING
 		a.setwithdrawn(0);
-		AuthTokenRepository.save(a);
-		*/
+		authTokenRepository.save(a);	
     }
+   
 }
