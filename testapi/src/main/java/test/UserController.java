@@ -38,7 +38,7 @@ public class UserController {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    @PostMapping("/sign-up")
+    @PostMapping("/api/sign-up")
     public String signUp(@RequestBody ApplicationUser user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         /*
@@ -54,24 +54,21 @@ public class UserController {
     
     @PostMapping("/api/logout")
     public Message onLogoutSuccessShowMessage(HttpServletRequest request, HttpServletResponse response, Authentication authentication){
+    	String token = request.getHeader(HEADER_STRING);
+        AuthToken a = new AuthToken();
+        a=authTokenRepository.findByValue(token);
+        if(a==null || (a.getwithdrawn()).equals(1)) {
+        try {
+			response.sendError(HttpServletResponse.SC_FORBIDDEN, "You have to login");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		}
     	response.setStatus(HttpServletResponse.SC_OK);
-    	AuthToken a=new AuthToken();
-    	String tokenValue=request.getHeader(HEADER_STRING);
-    	if (tokenValue != null) a=authTokenRepository.findByValue(tokenValue);
     	a.setwithdrawn(1);
     	authTokenRepository.save(a);
         Message messagaki = new Message();
 		messagaki.setmessage("OK");
 		return messagaki;
     }
-/*
-    @PostMapping("/logout")
-    public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null){    
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-        return "giiiiiixaaaaaa";//You can redirect wherever you want, but generally it's a good practice to show login screen again.
-    }
-    */
 }

@@ -1,5 +1,8 @@
 package test;
 
+import static test.SecurityConstants.HEADER_STRING;
+
+import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -8,6 +11,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.aspectj.weaver.reflect.IReflectionWorld;
 import org.assertj.core.util.DateUtil;
@@ -35,20 +41,24 @@ import test.ShopRepository;
 import test.Priceout;
 import test.PagingProduct;
 import test.PagingShop;
+import test.AuthToken;
+import test.AuthTokenRepository;
  
 @RestController
 public class GreetingController {
 //implements ErrorController {
 	
-	private static final String PATH="/error";
+	private static final String PATH="/api/error";
 	@Autowired
 	private ProductRepository ProductRepository;
 	@Autowired
 	private ShopRepository ShopRepository;
 	@Autowired
 	private PriceRepository PriceRepository;
+	@Autowired
+	private AuthTokenRepository authTokenRepository;
 	
-	@GetMapping (path = "/products")
+	@GetMapping (path = "/api/products")
 	public PagingProduct getAllProducts(@RequestParam Optional<String> status, @RequestParam Optional<String> sort,
 			@RequestParam Optional<Integer> start, @RequestParam Optional<Integer> count) {
 		int size = 0, i, total;
@@ -96,7 +106,7 @@ public class GreetingController {
 		return out;
 	}
 	
-	@GetMapping("/products/{id}")
+	@GetMapping("/api/products/{id}")
 	public Productout retrieveProduct(@PathVariable int id) {
 		Optional<Product> product = ProductRepository.findById(id);
 
@@ -107,10 +117,20 @@ public class GreetingController {
 		return productout;
 	}
 	
-	@PutMapping("/products/{id}")
+	@PutMapping("/api/products/{id}")
 	public Productout updateProduct(@PathVariable int id, @RequestParam String name, @RequestParam String description, @RequestParam String category,
-			@RequestParam String tags) {
+			@RequestParam String tags, HttpServletRequest request,HttpServletResponse response) {
 		Optional<Product> product = ProductRepository.findById(id);
+		String token = request.getHeader(HEADER_STRING);
+        AuthToken a = new AuthToken();
+        a=authTokenRepository.findByValue(token);
+        if(a==null || (a.getwithdrawn()).equals(1)) {
+        try {
+			response.sendError(HttpServletResponse.SC_FORBIDDEN, "You have to login");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		}
 		if (!product.isPresent())
 			throw new ProductNotFoundException("id-" + id);
 		product.get().setname(name);
@@ -123,10 +143,20 @@ public class GreetingController {
 		
 	}
 	
-	@PatchMapping("/products/{id}")
+	@PatchMapping("/api/products/{id}")
 	public Productout semiupdateProduct(@PathVariable int id, @RequestParam Optional<String> name, @RequestParam Optional<String> description, @RequestParam Optional<String> category,
-			@RequestParam Optional<String> tags) {
+			@RequestParam Optional<String> tags, HttpServletRequest request,HttpServletResponse response) {
 		Optional<Product> product = ProductRepository.findById(id);
+		String token = request.getHeader(HEADER_STRING);
+        AuthToken a = new AuthToken();
+        a=authTokenRepository.findByValue(token);
+        if(a==null || (a.getwithdrawn()).equals(1)) {
+        try {
+			response.sendError(HttpServletResponse.SC_FORBIDDEN, "You have to login");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		}
 		if (!product.isPresent())
 			throw new ProductNotFoundException("id-" + id);
 		if (name.isPresent()) {
@@ -146,10 +176,20 @@ public class GreetingController {
 		return productout;
 	}
 	
-	@PostMapping (path = "/products" ,produces = { "application/json; charset=utf-8" })
+	@PostMapping (path = "/api/products" ,produces = { "application/json; charset=utf-8" })
 	public @ResponseBody Productout addProduct(@RequestParam String name, @RequestParam String description, @RequestParam String category,
-			@RequestParam String tags) {
+			@RequestParam String tags, HttpServletRequest request,HttpServletResponse response) {
 		Product p = new Product();
+		String token = request.getHeader(HEADER_STRING);
+        AuthToken a = new AuthToken();
+        a=authTokenRepository.findByValue(token);
+        if(a==null || (a.getwithdrawn()).equals(1)) {
+        try {
+			response.sendError(HttpServletResponse.SC_FORBIDDEN, "You have to login");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		}
 		p.setname(name);
 		p.setcategory(category);
 		p.setdescription(description);
@@ -160,7 +200,7 @@ public class GreetingController {
 		return productout;
 	}
 	
-	@GetMapping(path = "/shops")
+	@GetMapping(path = "/api/shops")
 	public @ResponseBody PagingShop getAllShops(@RequestParam Optional<String> status, @RequestParam Optional<String> sort,
 			@RequestParam Optional<Integer> start, @RequestParam Optional<Integer> count) {
 		int size=0, i, total;
@@ -208,7 +248,7 @@ public class GreetingController {
 	}
 	
 	
-	@GetMapping("/shops/{id}")
+	@GetMapping("/api/shops/{id}")
 	public Shopout retrieveShop(@PathVariable int id) {
 		Optional<Shop> shop = ShopRepository.findById(id);
 
@@ -219,10 +259,20 @@ public class GreetingController {
 		return shopout;
 	}
 	
-	@PutMapping("/shops/{id}")
+	@PutMapping("/api/shops/{id}")
 	public Shopout updateShop(@PathVariable int id, @RequestParam String name, @RequestParam String address, @RequestParam Double lng, 
-			@RequestParam Double lat, @RequestParam String tags) {
+			@RequestParam Double lat, @RequestParam String tags, HttpServletRequest request,HttpServletResponse response) {
 		Optional<Shop> shop = ShopRepository.findById(id);
+		String token = request.getHeader(HEADER_STRING);
+        AuthToken a = new AuthToken();
+        a=authTokenRepository.findByValue(token);
+        if(a==null || (a.getwithdrawn()).equals(1)) {
+        try {
+			response.sendError(HttpServletResponse.SC_FORBIDDEN, "You have to login");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		}
 		if (!shop.isPresent())
 			throw new ShopNotFoundException("id-" + id);
 		shop.get().setname(name);
@@ -235,10 +285,20 @@ public class GreetingController {
 		return shopout;
 	}
 	
-	@PatchMapping("/shops/{id}")
+	@PatchMapping("/api/shops/{id}")
 	public Shopout semiupdateShop(@PathVariable int id, @RequestParam Optional<String> name, @RequestParam Optional<String> address, 
-			@RequestParam Optional<Double> lng, @RequestParam Optional<Double> lat, @RequestParam Optional<String> tags) {
+			@RequestParam Optional<Double> lng, @RequestParam Optional<Double> lat, @RequestParam Optional<String> tags, HttpServletRequest request,HttpServletResponse response) {
 		Optional<Shop> shop = ShopRepository.findById(id);
+		String token = request.getHeader(HEADER_STRING);
+        AuthToken a = new AuthToken();
+        a=authTokenRepository.findByValue(token);
+        if(a==null || (a.getwithdrawn()).equals(1)) {
+        try {
+			response.sendError(HttpServletResponse.SC_FORBIDDEN, "You have to login");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		}
 		if (!shop.isPresent())
 			throw new ShopNotFoundException("id-" + id);
 		if(name.isPresent()) {
@@ -260,10 +320,20 @@ public class GreetingController {
 		return shopout;
 	}
 	
-	@PostMapping(path = "/shops") 
+	@PostMapping(path = "/api/shops") 
 	public @ResponseBody Shopout addShop(@RequestParam String name, @RequestParam String address, @RequestParam Double lng, 
-			@RequestParam Double lat, @RequestParam String tags) {
+			@RequestParam Double lat, @RequestParam String tags, HttpServletRequest request,HttpServletResponse response) {
 		Shop s = new Shop();
+		String token = request.getHeader(HEADER_STRING);
+        AuthToken a = new AuthToken();
+        a=authTokenRepository.findByValue(token);
+        if(a==null || (a.getwithdrawn()).equals(1)) {
+        try {
+			response.sendError(HttpServletResponse.SC_FORBIDDEN, "You have to login");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		}
 		s.setname(name);
 		s.setaddress(address);
 		s.setlng(lng);
@@ -276,7 +346,7 @@ public class GreetingController {
 	}
 	
 	
-	@GetMapping("/prices")
+	@GetMapping("/api/prices")
 	public @ResponseBody PagingPrice getallPrices(@RequestParam Optional<List<Integer>> Productsid, @RequestParam Optional<List<Integer>> Shopsid,
 			@RequestParam Optional<Integer> geoDst, @RequestParam Optional<Double> geoLng, @RequestParam Optional<Double> geoLat,
 			@RequestParam Optional<Date> dateFrom, @RequestParam Optional<Date> dateTo, @RequestParam Optional<List<String>> tags,
@@ -429,10 +499,20 @@ public class GreetingController {
 		//return priceout3;
 	}
 	
-	@PostMapping("/prices")
+	@PostMapping("/api/prices")
 	public @ResponseBody String addPrice(@RequestParam Double price, @RequestParam Integer productid, @RequestParam Integer shopid,
-			@RequestParam Date dateFrom, @RequestParam Date dateTo) {
+			@RequestParam Date dateFrom, @RequestParam Date dateTo, HttpServletRequest request,HttpServletResponse response) {
 		Price p = new Price();
+		String token = request.getHeader(HEADER_STRING);
+        AuthToken a = new AuthToken();
+        a=authTokenRepository.findByValue(token);
+        if(a==null || (a.getwithdrawn()).equals(1)) {
+        try {
+			response.sendError(HttpServletResponse.SC_FORBIDDEN, "You have to login");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		}
 		p.setprice(price);
 		Optional<Product> product = ProductRepository.findById(productid);
 		Optional<Shop> shop = ShopRepository.findById(shopid);

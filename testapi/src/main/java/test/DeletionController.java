@@ -53,15 +53,14 @@ public class DeletionController {
 	
 
 	
-	@DeleteMapping("/products/{id}")
+	@DeleteMapping("/api/products/{id}")
 	public Message deleteProductbyId(@PathVariable int id, HttpServletRequest request,HttpServletResponse response) {
 		Optional<Product> product = ProductRepository.findById(id);
 
 		String token = request.getHeader(HEADER_STRING);
         AuthToken a = new AuthToken();
         a=authTokenRepository.findByValue(token);
-        if(a==null)System.out.println("null leme");
-        else if((a.getwithdrawn()).equals(1)) {
+        if(a==null || (a.getwithdrawn()).equals(1)) {
         try {
 			response.sendError(HttpServletResponse.SC_FORBIDDEN, "You have to login");
 		} catch (IOException e) {
@@ -93,7 +92,7 @@ public class DeletionController {
 		return messagaki;
 	}
 	
-	@DeleteMapping("/shops/{id}")
+	@DeleteMapping("/api/shops/{id}")
 	public Message deleteShopbyId(@PathVariable int id, HttpServletRequest request) {
 		Optional<Shop> shop = ShopRepository.findById(id);
 
