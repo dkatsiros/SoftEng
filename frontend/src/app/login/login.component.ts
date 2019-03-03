@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
 
   constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router,
-    private authenticationService: AuthenticationService, private alertService: AlertService) { }
+    public authenticationService: AuthenticationService, private alertService: AlertService) { }
 
   ngOnInit() {
     this.userLogin = this.formBuilder.group({
@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
   get f() { return this.userLogin.controls; }
 
   onSubmit() {
-
+    
     this.submitted == true;
     if (this.userLogin.valid) {
       console.log(this.f.name);

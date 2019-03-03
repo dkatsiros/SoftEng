@@ -13,6 +13,7 @@ export class UserService {
   apiURL: string = 'http://localhost:8765/observatory/api/';
 
   register(user: Users) {
-    return this.http.post(`${this.apiURL}/register`, user);
+    console.log(user);
+    return this.http.post(`${this.apiURL}register`, user);
   } 
 }
