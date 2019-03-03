@@ -1,4 +1,5 @@
 package test;
+//NA VALOME STA POST,PUT,PATCH ,GET REQUESTS TO ERROR 400 -BAD REQUEST AN KATI EINAI KENO, ISOS KAI NA TA EXEI
 
 import static test.SecurityConstants.HEADER_STRING;
 
@@ -60,8 +61,13 @@ public class GreetingController {
 	
 	@GetMapping (path = "/api/products")
 	public PagingProduct getAllProducts(@RequestParam Optional<String> status, @RequestParam Optional<String> sort,
-			@RequestParam Optional<Integer> start, @RequestParam Optional<Integer> count) {
+			@RequestParam Optional<Integer> start, @RequestParam Optional<Integer> count, @RequestParam Optional<String> format, HttpServletResponse response) {
 		int size = 0, i, total;
+		 if (format.equals("xml")) try {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Change your format to json & try again");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		List<Productout> productsout = new ArrayList<>();
 		List<Product> products = new ArrayList<>();
 		if (!status.isPresent()) {
@@ -107,8 +113,13 @@ public class GreetingController {
 	}
 	
 	@GetMapping("/api/products/{id}")
-	public Productout retrieveProduct(@PathVariable int id) {
+	public Productout retrieveProduct(@PathVariable int id,@RequestParam Optional<String> format,HttpServletResponse response) {
 		Optional<Product> product = ProductRepository.findById(id);
+		 if (format.equals("xml")) try {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Change your format to json & try again");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 
 		if (!product.isPresent())
 			throw new ProductNotFoundException("id-" + id);
@@ -119,8 +130,13 @@ public class GreetingController {
 	
 	@PutMapping("/api/products/{id}")
 	public Productout updateProduct(@PathVariable int id, @RequestParam String name, @RequestParam String description, @RequestParam String category,
-			@RequestParam String tags, HttpServletRequest request,HttpServletResponse response) {
+			@RequestParam String tags, HttpServletRequest request,HttpServletResponse response,@RequestParam Optional<String> format) {
 		Optional<Product> product = ProductRepository.findById(id);
+		 if (format.equals("xml")) try {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Change your format to json & try again");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		String token = request.getHeader(HEADER_STRING);
         AuthToken a = new AuthToken();
         a=authTokenRepository.findByValue(token);
@@ -145,8 +161,13 @@ public class GreetingController {
 	
 	@PatchMapping("/api/products/{id}")
 	public Productout semiupdateProduct(@PathVariable int id, @RequestParam Optional<String> name, @RequestParam Optional<String> description, @RequestParam Optional<String> category,
-			@RequestParam Optional<String> tags, HttpServletRequest request,HttpServletResponse response) {
+			@RequestParam Optional<String> tags, HttpServletRequest request,HttpServletResponse response,@RequestParam Optional<String> format) {
 		Optional<Product> product = ProductRepository.findById(id);
+		 if (format.equals("xml")) try {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Change your format to json & try again");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		String token = request.getHeader(HEADER_STRING);
         AuthToken a = new AuthToken();
         a=authTokenRepository.findByValue(token);
@@ -178,8 +199,13 @@ public class GreetingController {
 	
 	@PostMapping (path = "/api/products" ,produces = { "application/json; charset=utf-8" })
 	public @ResponseBody Productout addProduct(@RequestParam String name, @RequestParam String description, @RequestParam String category,
-			@RequestParam String tags, HttpServletRequest request,HttpServletResponse response) {
+			@RequestParam String tags, HttpServletRequest request,HttpServletResponse response, @RequestParam Optional<String> format) {
 		Product p = new Product();
+		 if (format.equals("xml")) try {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Change your format to json & try again");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		String token = request.getHeader(HEADER_STRING);
         AuthToken a = new AuthToken();
         a=authTokenRepository.findByValue(token);
@@ -202,8 +228,13 @@ public class GreetingController {
 	
 	@GetMapping(path = "/api/shops")
 	public @ResponseBody PagingShop getAllShops(@RequestParam Optional<String> status, @RequestParam Optional<String> sort,
-			@RequestParam Optional<Integer> start, @RequestParam Optional<Integer> count) {
+			@RequestParam Optional<Integer> start, @RequestParam Optional<Integer> count, @RequestParam Optional<String> format, HttpServletResponse response) {
 		int size=0, i, total;
+		 if (format.equals("xml")) try {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Change your format to json & try again");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		List<Shopout> shopssout = new ArrayList<>();
 		List<Shop> shops = new ArrayList<>();
 		if (!status.isPresent()) {
@@ -249,9 +280,13 @@ public class GreetingController {
 	
 	
 	@GetMapping("/api/shops/{id}")
-	public Shopout retrieveShop(@PathVariable int id) {
+	public Shopout retrieveShop(@PathVariable int id, @RequestParam Optional<String> format, HttpServletResponse response) {
 		Optional<Shop> shop = ShopRepository.findById(id);
-
+		 if (format.equals("xml")) try {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Change your format to json & try again");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		if (!shop.isPresent())
 			throw new ShopNotFoundException("id-" + id);
 
@@ -261,8 +296,13 @@ public class GreetingController {
 	
 	@PutMapping("/api/shops/{id}")
 	public Shopout updateShop(@PathVariable int id, @RequestParam String name, @RequestParam String address, @RequestParam Double lng, 
-			@RequestParam Double lat, @RequestParam String tags, HttpServletRequest request,HttpServletResponse response) {
+			@RequestParam Double lat, @RequestParam String tags, HttpServletRequest request,HttpServletResponse response, @RequestParam Optional<String> format) {
 		Optional<Shop> shop = ShopRepository.findById(id);
+		 if (format.equals("xml")) try {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Change your format to json & try again");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		String token = request.getHeader(HEADER_STRING);
         AuthToken a = new AuthToken();
         a=authTokenRepository.findByValue(token);
@@ -287,8 +327,14 @@ public class GreetingController {
 	
 	@PatchMapping("/api/shops/{id}")
 	public Shopout semiupdateShop(@PathVariable int id, @RequestParam Optional<String> name, @RequestParam Optional<String> address, 
-			@RequestParam Optional<Double> lng, @RequestParam Optional<Double> lat, @RequestParam Optional<String> tags, HttpServletRequest request,HttpServletResponse response) {
+			@RequestParam Optional<Double> lng, @RequestParam Optional<Double> lat, @RequestParam Optional<String> tags, HttpServletRequest request,HttpServletResponse response, 
+			@RequestParam Optional<String> format) {
 		Optional<Shop> shop = ShopRepository.findById(id);
+		 if (format.equals("xml")) try {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Change your format to json & try again");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		String token = request.getHeader(HEADER_STRING);
         AuthToken a = new AuthToken();
         a=authTokenRepository.findByValue(token);
@@ -322,8 +368,13 @@ public class GreetingController {
 	
 	@PostMapping(path = "/api/shops") 
 	public @ResponseBody Shopout addShop(@RequestParam String name, @RequestParam String address, @RequestParam Double lng, 
-			@RequestParam Double lat, @RequestParam String tags, HttpServletRequest request,HttpServletResponse response) {
+			@RequestParam Double lat, @RequestParam String tags, HttpServletRequest request,HttpServletResponse response, @RequestParam Optional<String> format) {
 		Shop s = new Shop();
+		 if (format.equals("xml")) try {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Change your format to json & try again");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		String token = request.getHeader(HEADER_STRING);
         AuthToken a = new AuthToken();
         a=authTokenRepository.findByValue(token);
@@ -350,8 +401,14 @@ public class GreetingController {
 	public @ResponseBody PagingPrice getallPrices(@RequestParam Optional<List<Integer>> Productsid, @RequestParam Optional<List<Integer>> Shopsid,
 			@RequestParam Optional<Integer> geoDst, @RequestParam Optional<Double> geoLng, @RequestParam Optional<Double> geoLat,
 			@RequestParam Optional<Date> dateFrom, @RequestParam Optional<Date> dateTo, @RequestParam Optional<List<String>> tags,
-			@RequestParam Optional<String> sort, @RequestParam Optional<Integer> start, @RequestParam Optional<Integer> count) {
+			@RequestParam Optional<String> sort, @RequestParam Optional<Integer> start, @RequestParam Optional<Integer> count, @RequestParam Optional<String> format,
+			HttpServletResponse response) {
 		int size=0, i, total;
+		 if (format.equals("xml")) try {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Change your format to json & try again");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		List<Priceout> result = new ArrayList<>();
 		List<Price> prices = new ArrayList<>();
 		List<Price> priceout = new ArrayList<>();
@@ -501,8 +558,13 @@ public class GreetingController {
 	
 	@PostMapping("/api/prices")
 	public @ResponseBody String addPrice(@RequestParam Double price, @RequestParam Integer productid, @RequestParam Integer shopid,
-			@RequestParam Date dateFrom, @RequestParam Date dateTo, HttpServletRequest request,HttpServletResponse response) {
+			@RequestParam Date dateFrom, @RequestParam Date dateTo, HttpServletRequest request,HttpServletResponse response, @RequestParam Optional<String> format) {
 		Price p = new Price();
+		 if (format.equals("xml")) try {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Change your format to json & try again");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		String token = request.getHeader(HEADER_STRING);
         AuthToken a = new AuthToken();
         a=authTokenRepository.findByValue(token);
