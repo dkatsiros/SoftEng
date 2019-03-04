@@ -2,12 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as ol from 'openlayers';
 
-const API_END_POINT = 'http://localhost:8765/observatory/api/shops';
-
-
+const API_END_POINT = 'https://localhost:8765/observatory/api/';
 
 @Component({
-  selector: 'app-map',
+  selector: 'map-root',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css']
 })
@@ -104,7 +102,6 @@ export class MapComponent implements OnInit {
             }
           )
 
-          // let value = parseFloat(datum.value);
           feature.setStyle(style);
           feature.setProperties({name:datum.name,value:datum.value});
           this.vectorSource.addFeature(feature);
@@ -113,10 +110,10 @@ export class MapComponent implements OnInit {
       });
   }
 
-
-
-  onSave() {
-    // alert('poi save request');
+  public getPricesmap(x,y,range,dateFrom,dateTo,shopName,productName){
+    return this.httmp.get(`${API_END_POINT}prices?range=range,dateFrom=dateFrom`);
+    }
+  onSearch(range, dateFrom, dateTo, shopName, productName) {
 
     let coordinates = this.map.getView().getCenter();
     let lonlat = ol.proj.toLonLat(coordinates);
@@ -124,8 +121,10 @@ export class MapComponent implements OnInit {
       x: lonlat[0],
       y: lonlat[1],
       name: this.form_name,
-      value: this.form_value
+      rangeFromSpot: range
     }
+
+    console.log(lonlat[0],lonlat[1],range,dateFrom,dateTo,shopName,productName);
 
     this.vectorSource.clear();
 
@@ -133,6 +132,7 @@ export class MapComponent implements OnInit {
       .toPromise().then(d => {
         this.getMyPois();
       })
-  }
+      this.getPricesmap(lonlat[0],lonlat[1],range,dateFrom,dateTo,shopName,productName);
 
+    }
 }

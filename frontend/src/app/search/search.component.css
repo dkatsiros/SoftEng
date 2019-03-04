@@ -3,6 +3,8 @@
   margin-left: 50px;
 }
 
+
+
 .container {
   display: block;
   position: relative;
@@ -64,4 +66,35 @@
 	height: 8px;
 	border-radius: 50%;
 	background: white;
+}
+a {
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
+  margin-left: 80px
+}
+
+aC{
+  background-color: #ddd;
+  color: black;
+}
+
+.previous {
+  background-color: #f1f1f1;
+  color: black;
+}
+
+.next {
+  background-color: gold;
+  color: black;
+}
+
+.next:hover {
+  background-color: gold;
+  color: black;
+}
+
+
+.round {
+  border-radius: 50%;
 }

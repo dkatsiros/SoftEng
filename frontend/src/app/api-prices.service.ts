@@ -8,7 +8,7 @@ import { Prices } from './prices';
 export class ApiPricesService {
 
  
-  apiURL: string = 'http://localhost:8765/observatory/api/';
+  apiURL: string = 'https://localhost:8765/observatory/api/';
   
   constructor(private httpClient: HttpClient) {};
   

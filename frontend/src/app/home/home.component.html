@@ -5,9 +5,9 @@
 <div *ngIf="g(); then logedin else notlogedin"></div>
 <ng-template #logedin>
 
-  <a routerLink="/insert"><button class="btn btn-success pull-right" > Insert</button></a>
+  <a routerLink="/insert"><button class="btn btn-success pull-right button" > Insert</button></a>
 
 
 </ng-template>
-<ng-template #notlogedin><a routerLink="/login"><button class="btn btn-success pull-right" > Login</button></a>
+<ng-template #notlogedin><a routerLink="/login"><button class="btn btn-success pull-right button" > Login</button></a>
 </ng-template>

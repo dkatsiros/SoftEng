@@ -2,12 +2,12 @@
 
 <nav>
 
-    <div *ngIf="!g(); then logedin else notlogedin"></div>
+    <div *ngIf="g(); then logedin else notlogedin"></div>
     <ng-template #logedin>
      
 
   <label class="container">Product
-    <input type="radio" checked="checked" name="radio" routerLink="insert-product">
+    <input type="radio"  name="radio" routerLink="insert-product">
     <span class="checkmark"></span>
   </label>
   <label class="container">Shop
@@ -22,7 +22,7 @@
 </ng-template>
 
 <ng-template #notlogedin>
-  not loged int kane eisodo mlk
+You have to log in to insert Product,Shop,Price
   <a routerLink="/login"><button class="btn btn-success pull-right" > Login</button></a>
 
 </ng-template>

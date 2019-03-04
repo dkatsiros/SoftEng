@@ -15,6 +15,22 @@
     margin: 8px 0;
     box-sizing: border-box;
   }
+.map{
+  position:absolute;
+  top:0px;
+  left:0px;
+  right:0px;
+  bottom:0px;
+  background: #ccc;
+}
+
+.myform{
+  position:absolute;
+  height:500px;
+  background: white;
+  padding:20px;
+  border-radius:6px;
+}
 
   input[type=date] {
     width: 300px;
@@ -41,3 +57,21 @@
   .button:hover {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
   }
+.pointer{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background: red;
+}
+
+.display-form{
+  position:absolute;
+  left:10px;
+  top:10px;
+  padding:5px;
+  background: white;
+  z-index: 3;
+}
