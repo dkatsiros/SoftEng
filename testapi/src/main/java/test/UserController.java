@@ -1,16 +1,26 @@
 package test;
 
+import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
+import static test.SecurityConstants.EXPIRATION_TIME;
 import static test.SecurityConstants.HEADER_STRING;
+import static test.SecurityConstants.SECRET;
+import static test.SecurityConstants.TOKEN_PREFIX;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 
+import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 //edw exoyme to sign up
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -21,13 +31,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.auth0.jwt.JWT;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import test.AuthToken;
 import test.AuthTokenRepository;
 import test.ApplicationUser;
 
 @RestController
 public class UserController {
-
+    private AuthenticationManager authenticationManager;
     private ApplicationUserRepository applicationUserRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
