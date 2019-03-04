@@ -1,15 +1,29 @@
-<link rel="stylesheet" href="https://www.w3schools.com/s3css/4/w3.css">
 <br><br>
 <td class="td-big">Products</td>
+<br><br><br><br>
 <table class="small-table">
     <div *ngFor="let product of products">
       <ul>
-        {{product.id}} , {{product.name}}, {{product.description}}, {{product.tags}}, {{product.category}}
+        <th>
+            {{product.id}}
+        </th>
+        <th class= "name-product">
+            {{product.name}}
+        </th>
+      <th>
+            {{product.description}}
+        </th>
+        <th>
+            {{product.tags}}
+        </th>
+        <th>
+            {{product.category}}
+        </th>
       </ul>
      </div>
  
 </table>
-<table class= "w3-table big-table">
+<table class= "big-table">
   <thead>
     <tr>
       <td>Start</td>
