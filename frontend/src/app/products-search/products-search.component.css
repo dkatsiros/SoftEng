@@ -2,7 +2,15 @@
   margin-top: 30px;
   margin-left: 80px;
 }
-
+/* 
 .table-product-search{
-  background-color: black
+  background-color: black;
+  text-align: center;
+} */
+.td-big{
+  font-size: large;
+  position: absolute;
+  top: 50%;
+  left: 30%;
+  
 }
