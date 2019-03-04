@@ -1,10 +1,21 @@
-<table>
+<link rel="stylesheet" href="https://www.w3schools.com/s3css/4/w3.css">
+<br><br>
+<td class="td-big">Products</td>
+<table class="small-table">
+    <div *ngFor="let product of products">
+      <ul>
+        {{product.id}} , {{product.name}}, {{product.description}}, {{product.tags}}, {{product.category}}
+      </ul>
+     </div>
+ 
+</table>
+<table class= "w3-table big-table">
   <thead>
     <tr>
       <td>Start</td>
       <td>Count</td>
       <td>Total</td>
-      <td>Products</td>
+      <!-- <td>Products</td> -->
     </tr>
   </thead>
   <tbody>
@@ -12,13 +23,13 @@
     <td>{{data.start}}</td>
     <td>{{data.count}}</td>
     <td>{{data.total}}</td>
-    <table>
+    <!-- <table class="small-table">
         <div *ngFor="let product of products">
           <ul>
             {{product.id}} , {{product.name}}, {{product.description}}, {{product.tags}}, {{product.category}}
           </ul>
          </div>
      
-    </table>
+    </table> -->
   </tbody>
 </table>

@@ -34,7 +34,7 @@ export class InsertShopComponent implements OnInit {
       name:['',[Validators.required]],
       address:['',[Validators.required]],
       lng:['',[Validators.required]],
-      lat:['',[Validators.required]],
+      lna:['',[Validators.required]],
       tags:['',[Validators.required]]
 
     })
