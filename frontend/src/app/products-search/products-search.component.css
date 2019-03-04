@@ -19,7 +19,7 @@
   
 }
 .small-table{
-  /*  font-family: arial, sans-serif; */
+
   border-collapse: collapse;
   width: 80%;
   border: 1px solid black;
@@ -32,7 +32,17 @@ td, th, ul {
   border: 1px solid #dddddd;
   text-align: left;
   padding: 8px;
+  width:60%;
 }
-tr:nth-child(even) {
+th{
+  width:20%;
+}
+/* tr:nth-child(even) {
   background-color: #dddddd;
+} */
+.down-td{
+    border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+  width: 10%;
 }
