@@ -17,7 +17,7 @@
   <tr><input [(ngModel)]="productName" placeholder="product name" type="text" /></tr>
   <button class="button"
     (click)="onSearch(this.range, this.dateFrom, this.dateTo, this.shopName, this.productName)">search</button>
-
+    <a [routerLink]="['/']" class="btn btn-link button">Cancel</a>
 
 </div>
 
