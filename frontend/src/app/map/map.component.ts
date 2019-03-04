@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as ol from 'openlayers';
 
-const API_END_POINT = 'http://my.rest.end.point';
+const API_END_POINT = 'https://localhost:8765/observatory/api/';
 
 @Component({
   selector: 'map-root',
@@ -110,6 +110,9 @@ export class MapComponent implements OnInit {
       });
   }
 
+  public getPricesmap(range,dateFrom,dateTo,shopName,productName){
+    return this.httmp.get(`${API_END_POINT}prices?range=range,dateFrom=dateFrom`);
+    }
   onSearch(range, dateFrom, dateTo, shopName, productName) {
 
     let coordinates = this.map.getView().getCenter();
@@ -129,6 +132,7 @@ export class MapComponent implements OnInit {
       .toPromise().then(d => {
         this.getMyPois();
       })
-  }
+      this.getPricesmap(range,dateFrom,dateTo,shopName,productName);
 
+    }
 }
