@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as ol from 'openlayers';
+import { HomeComponent } from '../home/home.component';
+import {NavComponent} from '../nav/nav.component';
 
 const API_END_POINT = 'https://localhost:8765/observatory/api/';
 
