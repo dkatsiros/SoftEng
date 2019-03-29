@@ -13,6 +13,7 @@ export class PricesSearchComponent implements OnInit {
   count: number;
   total: number;
   data: any = {};
+  columnsdis: string[];
 
   constructor(private apis: ApiPricesService) { }
 
@@ -22,6 +23,7 @@ export class PricesSearchComponent implements OnInit {
         this.data=response;
         var str = JSON.stringify(this.data,null,"    ");
         this.prices=this.data.prices;
+        this.columnsdis=["productid","productName","shopid","shopName","price","date"];
       }
     )
   }
