@@ -1,5 +1,25 @@
+<html>
 <h1 class="display-4">About us</h1>
- 
+
+<div id='test'><h2>Click to let AJAX change this text</h2></div>
+
+<script>
+	function loadDoc(url)
+	{
+        document.write("Hello World!");
+		//μόνο γιο ΙΕ7+, Μοzilla, Opera klt… 	
+		xmlhttp=new XMLHttpRequest();
+		xmlhttp.open("GET",url,false);
+		xmlhttp.send(null);
+		document.getElementById('test').innerHTML=xmlhttp.responseText;
+	}
+</script>
+<body>
+
+<input type="submit" value="Click" ng-click="loadDoc('http://www.google.gr')"/> 
+
+
+
 <h2>Team of developers</h2>
 <table>
 <h3>
@@ -26,3 +46,5 @@
     Vassilis Xiros
 </h3>
 </table>
+</body>
+</html>

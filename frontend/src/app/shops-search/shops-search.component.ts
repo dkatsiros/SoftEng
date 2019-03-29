@@ -13,11 +13,13 @@ export class ShopsSearchComponent implements OnInit {
   count: number;
   total: number;
   data: any = {};
-data2: any={};
+  data2: any={};
+  columnsdis: string[];
   constructor(private apis: ApiShopsService) { }
 
   ngOnInit() {
    
+    this.columnsdis=["id","name","address"];
     this.apis.getShops().subscribe(response => {
       console.log(response);
         this.data=response;

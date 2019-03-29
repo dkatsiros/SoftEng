@@ -4,7 +4,7 @@ import { AppComponent } from './app.component';
 import { ContactFormComponent } from './contact-form/contact-form.component';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
-
+import { MatTableModule } from '@angular/material';
 // our apis
 import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -76,6 +76,7 @@ import { MapComponent } from './map/map.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    MatTableModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: function  tokenGetter() {
