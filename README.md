@@ -7,7 +7,7 @@ This project was started from a [Software Engineering assignment](https://course
 
 
 <h3> :computer: Technologies used </h3>
-The application was developed in Angular7 for the frontend side and with Spring for the backend side.
+The application was developed in <b>Angular7</b> for the frontend side and with <b>Spring</b> for the backend side.
 
 
 
