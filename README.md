@@ -3,7 +3,7 @@
 This project aims to provide a "price observatory" system, which will allow the users to search and be informed about product prices as well as to record,post and share them via the application.
 
 
-This project was started from a [Software Engineering assignment](https://courses.softlab.ntua.gr/softeng/2018b/) for NTUA Course "Software Engineering" (Fall 2018).
+This project was started from a [Software Engineering assignment](./project-softeng.pdf) for NTUA Course "Software Engineering" (Fall 2018).
 
 
 <h3> :computer: Technologies used </h3>
